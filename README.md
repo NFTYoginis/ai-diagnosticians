@@ -14,9 +14,9 @@ how it got there, and stops before prescribing anything.
 
 ## In this repo
 
-| Diagnostician | Diagnoses | Status |
-|---|---|---|
-| [listing-stall-diagnostician](listing-stall-diagnostician/) | Why a specific real estate listing hasn't sold, and whether price is actually the cause | **Built** · examples worked, not yet validated against retrospective cases |
+| Diagnostician | Diagnoses | Version | Validation |
+|---|---|---|---|
+| [listing-stall-diagnostician](listing-stall-diagnostician/) | Why a specific real estate listing hasn't sold, and whether price is actually the cause | v0.2 | Constructed cases + regression assertions in [tests/](listing-stall-diagnostician/tests/). **No retrospective field validation yet.** |
 
 Further diagnosticians in the same architecture are in progress. Each will carry its own
 validation status in this table rather than borrowing credibility from the others.
@@ -30,9 +30,12 @@ Every diagnostician in this portfolio runs the same sequence.
 1. **Confirm the failure is real.** Compare against a baseline before assuming anything
    broke. A great deal of what gets called failure is normal variation measured against
    a stale expectation.
-2. **Build the comparison set.** Diagnosis needs a control. The strongest domains have
-   one occurring naturally in the work: comparable listings, other answers to the same
-   question, resolved versus recurring tickets.
+2. **Build the comparison set, then test whether it holds.** Diagnosis needs a baseline.
+   The strongest domains have one occurring naturally in the work: comparable listings,
+   other answers to the same question, resolved versus recurring tickets. Then check the
+   set's integrity before trusting it, and say whether it is usable, usable with named
+   limitations, or not usable. A rigorous-sounding diagnosis on a weak comparison set is
+   the most likely way one of these produces a confident wrong answer.
 3. **Locate the break.** Find the earliest stage where the subject falls below that
    baseline. Everything downstream of a break is starved and therefore uninformative.
    This is what separates a diagnosis from a list.
@@ -41,8 +44,10 @@ Every diagnostician in this portfolio runs the same sequence.
    cause is not decidable and must be reported as such rather than chosen.
 5. **Test the null.** Attempt to reject your own diagnosis. *Nothing is meaningfully
    broken* is a legitimate and frequently correct answer.
-6. **Name one.** Everything else is demoted to downstream-of-the-primary or
-   not-supported-by-this-evidence.
+6. **Name one, at three levels.** *Constraint* is where it breaks. *Cause* is why it
+   breaks there. *Mechanism* is how that cause produces this specific pattern. Flattening
+   them yields a finding that sounds rigorous and cannot be acted on. Everything else is
+   demoted to downstream-of-the-primary or not-supported-by-this-evidence.
 7. **Stop.** State confidence, missing evidence, and what would prove the diagnosis
    wrong. Do not prescribe.
 
@@ -54,8 +59,10 @@ Every diagnostician in this portfolio runs the same sequence.
   during the work. If the user has to write a retrospective account of what happened, the
   diagnostician is reading a story authored by the person who is already wrong about the
   cause.
-- **A natural comparison set.** Preferably within-case, holding the environment constant
-  and varying only the outcome.
+- **A natural comparison set.** Preferably within-case, where the environment is largely
+  shared and the outcome varies. A comparison baseline reduces confounding. It is not an
+  experimental control, and writing it up as one turns a strong baseline into a false
+  proof.
 - **Competing hypotheses that need different evidence.** If one explanation always wins,
   there is nothing to diagnose.
 - **A loud folk cause.** The value is in converting the reflex answer into a hypothesis.

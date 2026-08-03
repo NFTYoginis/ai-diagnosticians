@@ -45,6 +45,25 @@
      line-height:1.05;letter-spacing:-.02em;margin:0 0 22px}
   .lede{font-size:clamp(18px,2.6vw,21px);color:var(--muted);margin:0 0 14px;max-width:56ch}
   .lede strong{color:var(--ink);font-weight:600}
+  .req{font-size:16px;color:var(--muted);max-width:56ch;margin:26px 0 0;
+       border-left:3px solid var(--line);padding:2px 0 2px 18px}
+  .req strong{color:var(--ink)}
+  .badge{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:11.5px;
+         line-height:1.6;letter-spacing:.02em;color:var(--muted);
+         border:1px solid var(--line);border-radius:6px;padding:8px 13px;background:var(--card)}
+  .io{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:start;
+      margin:28px 0}
+  .io .col{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px}
+  .io h5{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+         color:var(--muted);font-weight:500;margin:0 0 13px}
+  .io ul{list-style:none;margin:0;padding:0}
+  .io li{font-size:15px;padding:5px 0;border-bottom:1px solid var(--line)}
+  .io li:last-child{border-bottom:0}
+  .io .arrow{align-self:center;font-size:22px;color:var(--accent);padding-top:10px}
+  @media(max-width:600px){
+    .io{grid-template-columns:1fr;gap:10px}
+    .io .arrow{justify-self:center;padding:0;transform:rotate(90deg)}
+  }
   .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
   .btn{display:inline-block;padding:11px 20px;border-radius:7px;text-decoration:none;
        font-size:15px;font-weight:550;border:1px solid var(--line);
@@ -138,10 +157,13 @@
     <h1>Before you tell them to<br>drop the price.</h1>
     <p class="lede">A listing sits past its expected time on market and everyone in the room assumes the answer is price. <strong>Often it isn't.</strong> A reduction against the wrong constraint costs the seller real money and still doesn't sell the house.</p>
     <p class="lede">This is a folder you drop into a Claude Project. It reconstructs the buyer funnel, compares it against your comps over the same weeks, finds where the listing actually breaks, and names one cause.</p>
+    <p class="req"><strong>It cannot diagnose from the listing alone.</strong> It needs your comps and at least one measurable funnel signal. Without those it will tell you it can't tell, rather than guessing well.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/listing-stall-diagnostician">Get the folder</a>
-      <a class="btn" href="#report">See a real output</a>
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/listing-stall-diagnostician">Inspect the source</a>
+      <a class="btn" href="#report">See a worked diagnosis</a>
     </div>
+    <p class="badge">v0.2 · Built and exercised on constructed cases with regression assertions. Retrospective field validation pending.</p>
   </div>
 </header>
 
@@ -150,27 +172,60 @@
     <h2>The default answer is a treatment, not a diagnosis</h2>
     <p>"Lower the price" gets prescribed for every stalled listing because it's the one lever an agent controls without spending money, and because it works often enough to stay believable.</p>
     <p>But price is not one cause. It acts at three different points in the funnel and leaves a different fingerprint at each one.</p>
-    <p class="muted"><strong>In search results</strong>, price fails through thresholds, not affordability. A house at $512,000 is invisible to every search capped at $500,000 regardless of what it's worth. <strong>Before a showing</strong>, it fails through comparison against what else that money buys. <strong>After a showing</strong>, it fails as a value judgment by someone who already stood in the house.</p>
-    <p>Only the third one is fixed by a cut. The other two look identical from the outside.</p>
-    <p class="pull">A price cut that produced no change in activity has already falsified price as the constraint. The usual reading is that the cut was too small.</p>
+    <p class="muted"><strong>In search results</strong>, price acts through thresholds, not affordability. A house at $512,000 is absent from every search capped at $500,000 regardless of what it's worth. <strong>Before a showing</strong>, it acts through comparison against what else that money buys. <strong>After a showing</strong>, it acts as a value judgment by someone who already stood in the house.</p>
+    <p>A reduction can address any of the three. What differs is the kind of reduction each one needs. A threshold needs a crossing, and magnitude below it is irrelevant. Comparison needs landing beneath specific competitors. Value judgment needs magnitude. <strong>Identify the mechanism first, or you're pricing against the wrong one.</strong></p>
+    <p class="pull">A prior cut is a completed experiment, but it only tested the mechanism it was capable of testing. A $5,000 trim on a $512,000 listing says nothing about a $500,000 threshold.</p>
+    <p>So the folder gates it. A reduction counts as evidence only if it materially moved the listing's position or crossed the relevant threshold, the listing was otherwise unchanged, four weeks of observation follow it, and the market held steady. When a cut clears all four and nothing moves, that's strong evidence against price <em>at that mechanism</em>. When it doesn't clear them, it's no evidence in either direction, and saying so is more useful than reading it as proof the cut was too small.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
     <h2>One rule does most of the work</h2>
-    <p>Every listing moves buyers through four stages. Find the earliest one that falls below your comparable baseline. <strong>That stage is the diagnosis. Everything after it is starved and tells you nothing.</strong></p>
+    <p>Every listing moves buyers through five stages. Find the earliest one that falls below your comparable baseline. <strong>That stage is the diagnosis. Everything after it is starved and tells you nothing.</strong></p>
 
     <div class="funnel">
       <div class="stage"><span class="nm">Views</span><span class="bar" style="width:38%"></span><span class="rd">at baseline</span></div>
-      <div class="stage"><span class="nm">Saves</span><span class="bar" style="width:34%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Engagement</span><span class="bar" style="width:34%"></span><span class="rd">at baseline</span></div>
       <div class="stage"><span class="nm">Showings</span><span class="bar" style="width:36%"></span><span class="rd">at baseline</span></div>
       <div class="stage break"><span class="nm">2nd showings</span><span class="bar low" style="width:5%"></span><span class="rd">clearly below ← break</span></div>
       <div class="stage starved"><span class="nm">Offers</span><span class="bar low" style="width:2%"></span><span class="rd">starved · not evidence</span></div>
       <p class="capt">A listing pulling a third of normal views will also get few showings and no offers. Those are consequences, not separate faults. Reading them as independent problems is how you end up holding a list of nine issues and no idea which one is holding the sale.</p>
     </div>
 
-    <p>When the break lands at views, nothing is concluded about the photos, the condition, or the walkthrough. Almost nobody reached them. When it lands at offers, the listing worked and the visit didn't, and a price cut is at its weakest, because those buyers already saw the house.</p>
+    <p>Second showings are a stage, not a metric. A first showing is a judgment about the listing. A second is a judgment about the house. Most stalled listings that look healthy break exactly there, and it stays invisible unless you count it.</p>
+
+    <p>When the break lands at views, nothing is concluded about the photos, the condition, or the walkthrough. Almost nobody reached them. When it lands after the visit, the listing worked and the walkthrough didn't, and a price cut is at its weakest, because those buyers already stood in the house.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What goes in, what comes out</h2>
+    <div class="io">
+      <div class="col">
+        <h5>You supply</h5>
+        <ul>
+          <li>Listing and all photos</li>
+          <li>Price and status history</li>
+          <li>4 to 10 comps, same window</li>
+          <li>At least one funnel number</li>
+          <li>Showing feedback, verbatim</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col">
+        <h5>It returns</h5>
+        <ul>
+          <li>Where the funnel broke</li>
+          <li>One cause, and its mechanism</li>
+          <li>Demoted alternatives</li>
+          <li>Null model result</li>
+          <li>What would prove it wrong</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">The fourth item on the left is the one agents skip and the one the method depends on. It's what locates the break. Without it, every cause in the taxonomy stays live and anything named is a guess.</p>
   </div>
 </section>
 
@@ -182,12 +237,14 @@
     <div class="report">
       <div class="bar-top">Diagnosis · 4/2 single family · 58 days on market</div>
       <div class="body">
-        <h4>Break point</h4>
-        <p>Stage 4. The listing performed at or above baseline through the showing appointment. Buyers found it, clicked it, and came to the house at a normal rate. One of 34 first showings produced a second visit, against a comp baseline of roughly a quarter.</p>
+        <h4>Primary constraint</h4>
+        <p>Stage 4, second showings. The listing performed at or above baseline through the showing appointment. Buyers found it, clicked it, and came to the house at a normal rate. One of 34 first showings produced a second visit, against a comp baseline of roughly one in four.</p>
         <h4>Primary cause</h4>
-        <p>Expectation mismatch between the photographed property and the property buyers stood in. Seven of nine feedback notes name a discrepancy rather than a defect, and six of those name the same one: the main living space is materially smaller in person than the gallery suggests.</p>
+        <p>Expectation mismatch. Seven of nine feedback notes name a discrepancy rather than a defect, and six of those name the same one.</p>
+        <h4>Mechanism</h4>
+        <p>The gallery's wide-angle corner treatment of the main living space builds a pre-visit expectation of scale the walkthrough contradicts in the first sixty seconds, so buyers resolve against the house on that visit rather than leaving undecided. A buyer who leaves undecided comes back. These buyers are not undecided.</p>
         <h4>Alternatives, and why they are demoted</h4>
-        <p><strong>Price.</strong> Downstream and falsified. The day-34 reduction produced no change in showing rate over the following four weeks. The market was offered a lower number and did not respond.</p>
+        <p><strong>Price.</strong> The day-29 cut of $14,000 moved the subject below three active comps, the listing was otherwise unchanged, and 29 days of stable market follow it. That qualifies, so it tested the comparison and post-visit mechanisms. Second-showing rate did not move. Strong evidence against price at those two mechanisms. It says nothing about search thresholds, which are not in play here because Stage 1 is healthy.</p>
         <h4>Null model</h4>
         <p>Rejected. Three comps listed in the back half of the window sold in 14, 19, and 22 days.</p>
         <h4>Confidence</h4>
@@ -209,7 +266,7 @@
       </div>
       <div class="card">
         <p class="q">"Your reduction already answered this."</p>
-        <p>You ran the experiment. If activity didn't move, price was not the constraint, and the result is clean. Most people read an unresponsive cut as evidence the cut was too small.</p>
+        <p>A cut is a completed experiment, and the folder checks whether it qualified before reading it. If it did and nothing moved, that's strong evidence against price at the mechanism it tested. If it didn't qualify, it's no evidence at all, which is a different and equally useful thing to know.</p>
       </div>
       <div class="card">
         <p class="q">"I can't tell you from this."</p>
@@ -237,6 +294,7 @@
   <div class="wrap">
     <h2>Install</h2>
     <ol class="steps">
+      <li><a href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a> and unzip it.</li>
       <li>Create a Claude Project.</li>
       <li>Upload the contents of <code>listing-stall-diagnostician/</code> to the project knowledge.</li>
       <li>Paste this into the project's custom instructions:</li>
@@ -252,7 +310,8 @@ Do not recommend actions.</pre>
     <p class="muted">That last one is the item most often skipped and the one the whole method depends on. It's what locates where the listing is failing. Without it every possible cause stays live.</p>
     <p>Paste showing feedback verbatim. Don't summarize it. The pattern across notes is the evidence, and summarizing destroys it.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/listing-stall-diagnostician">Open the folder on GitHub</a>
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/listing-stall-diagnostician">Inspect the source on GitHub</a>
     </div>
   </div>
 </section>
@@ -261,7 +320,8 @@ Do not recommend actions.</pre>
   <div class="wrap">
     <p>Diagnoses listing performance against a comparison set you supply. Not an appraisal, a CMA, or a valuation, and it does not model your local market beyond the comps you give it.</p>
     <p>There are deliberately no industry-average benchmarks anywhere in the folder. Showing rates and normal time on market vary too much by market, band, and season for a national figure to be anything but wrong and believed. Every baseline is computed from your own comps.</p>
-    <p>Worked examples in the repo are constructed teaching cases, not client files.</p>
+    <p>Worked examples in the repo are constructed teaching cases, not client files. The comparison set is a natural baseline that reduces confounding, not an experimental control: comparable homes still differ in condition, street, layout, lot, view, association terms, and financing eligibility.</p>
+    <p>v0.2 · <a href="https://github.com/NFTYoginis/ai-diagnosticians/blob/main/CHANGELOG.md">Changelog</a> · <a href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/listing-stall-diagnostician/tests">Regression tests</a> · MIT licensed</p>
   </div>
 </footer>
 

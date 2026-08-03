@@ -23,6 +23,42 @@ what the subject is competing against right now.
 If the agent supplies fewer than four, say so and treat every conclusion as provisional.
 A comparison set of two is an anecdote.
 
+**Comps are a natural comparison baseline, not an experimental control.** They reduce
+confounding, they do not eliminate it. Comparable homes still differ in condition, exact
+street, layout, lot, view, association terms, financing eligibility, seller constraints,
+and portal exposure. Treat the baseline as strong evidence about the market, not as proof
+that the listing is the only variable.
+
+---
+
+## Step 0.5 — Comparison-set integrity check
+
+Run this before drawing any baseline. A rigorous-sounding diagnosis built on a weak comp
+set is the most likely way this folder produces a confident wrong answer.
+
+Check each:
+
+- Same buyer search geography, not just nearby on a map
+- Overlapping price and search band
+- Same property type
+- Similar size and bedroom count
+- Same listing window
+- Similar condition tier
+- Similar ownership, association, or financing constraints
+- No single outlier dominating the baseline
+- Enough per-stage funnel data to compare the same metric across the set
+
+Then state one verdict in the report:
+
+- **Usable** — all axes match, four or more comps, funnel data comparable
+- **Usable with limitations** — name the specific axes that do not match and which
+  branches those weaken. Confidence caps at Provisional.
+- **Not usable** — the set cannot support a baseline. Report Undetermined, name what a
+  usable set would need, and stop.
+
+If one comp is carrying the baseline on its own, remove it and see whether the conclusion
+survives. Say so if it does not.
+
 ---
 
 ## Step 1 — Confirm the failure is real
@@ -42,14 +78,30 @@ is not evidence. "Longer than eight comparable homes over the same eleven weeks"
 
 ## Step 2 — Reconstruct the funnel
 
-Every listing moves buyers through four stages. Each has its own evidence.
+Every listing moves buyers through five stages. This funnel is canonical. Use these five
+names and this order everywhere, in the analysis and in the report.
 
-| Stage | Evidence | What it means |
+| Stage | Evidence | The buyer decision it measures |
 |---|---|---|
-| 1. Impressions and views | Portal view counts, saves, favorites | The listing was seen in search results |
-| 2. Inquiries | Requests for info, calls, portal messages | The listing produced interest |
-| 3. Showings | Showing appointments, open house attendance | Buyers came to the house |
-| 4. Offers | Offers written, terms, withdrawals | Buyers wanted the house |
+| 1. Views | Portal view counts. Impressions where available | It appeared in search results and was clicked |
+| 2. Engagement | Saves, favorites, inquiries, calls, portal messages | It held interest past the click |
+| 3. Showings | Showing appointments, open house attendance | Worth spending a Saturday on |
+| 4. Second showings | Repeat visits, return inquiries, requests to bring a partner or inspector | The walkthrough survived contact |
+| 5. Offers | Offers written, terms | Worth committing to |
+
+Stage 4 is a separate stage rather than a metric because a first showing and a second
+showing are different decisions made on different information. The first is made on the
+listing. The second is made on the house. Collapsing them hides the most common failure
+in this domain.
+
+**Post-offer is outside the funnel.** Offers that arrive and then die are a transaction
+failure, not a listing failure. The listing worked. Route those to the post-offer section
+of `reference/failure-modes.md` and say plainly that the constraint moved past marketing.
+
+Impressions are listed as optional evidence inside Stage 1 rather than as their own
+stage, because most agents can obtain views and cannot obtain impressions. Use them when
+present to separate "not served" from "served and not clicked." Do not treat their
+absence as a missing stage.
 
 Place the subject's numbers next to the comp set's at each stage. You are looking for
 the **first stage where the subject falls materially below the comparison baseline.**
@@ -74,16 +126,19 @@ Concretely:
   the photos' quality, the condition, or the walkthrough. You have no evidence about
   them, because nobody got that far. Search placement, price threshold, data accuracy,
   and syndication are live. Everything else is not.
-- **Break at Stage 2 or 3 (views fine, showings low).** Buyers saw it in results and
-  chose not to visit. Live branches: price relative to what buyers see in that band,
-  hero image, and anything visible online that disqualifies the house. Condition inside
-  the house is not yet in evidence.
-- **Break at Stage 4 (showings fine, no offers).** The listing worked and the visit did
-  not. Live branches: expectation mismatch, physical condition, hidden objection, value
-  perception at the price after seeing it. Price cuts are weakest here, because these
-  buyers already stood in the house.
-- **Offers arrive and die.** Not a listing failure at all. Diagnose the transaction:
-  financing, appraisal, inspection, association, seller response.
+- **Break at Stage 2 or 3 (views fine, engagement or showings low).** Buyers saw it in
+  results and chose not to visit. Live branches: price relative to what buyers see in
+  that band, hero image, gallery gaps, access friction, and anything visible online that
+  disqualifies the house. Condition inside the house is not yet in evidence.
+- **Break at Stage 4 (showings fine, second showings low).** The listing worked and the
+  visit did not. Live branches: expectation mismatch, physical condition, hidden
+  objection, value perception after seeing it. This is where most stalled listings that
+  look healthy actually break, and it is invisible unless second showings are counted.
+- **Break at Stage 5 (second showings fine, no offers).** Buyers came back and still did
+  not write. Live branches: post-visit value judgment, competing property, seller terms,
+  timing constraints.
+- **Offers arrive and die.** Outside the funnel. Diagnose the transaction: financing,
+  appraisal, inspection, association, seller response.
 
 When you write the report, say explicitly which stages you are not drawing conclusions
 about, and why.
@@ -101,20 +156,54 @@ cause were true and if it were false. If the record looks the same either way, t
 cause is not decidable from this evidence and you must say so rather than pick it.
 
 **Price gets special handling.** Price is the only cause that can act at three different
-stages, and it leaves a different fingerprint at each:
+stages, through three different mechanisms, each leaving its own fingerprint:
 
-- At Stage 1, price causes failure through **search thresholds**, not affordability.
-  Buyers filter in round numbers. A house at $512,000 is invisible to every search
-  capped at $500,000, regardless of whether it is worth $512,000.
-- At Stage 3, price causes failure through **comparison**. Buyers see it next to what
-  else that money buys and do not book.
-- At Stage 4, price causes failure through **post-visit value judgment**. They saw it,
-  liked it, and will not pay that.
+- At Stage 1, price acts through **search thresholds**, not affordability. Buyers filter
+  in round numbers. A house at $512,000 is absent from every search capped at $500,000,
+  regardless of what it is worth.
+- At Stage 3, price acts through **comparison**. Buyers see it beside what else that
+  money buys in the same results and do not book.
+- At Stages 4 and 5, price acts through **post-visit value judgment**. They stood in it,
+  liked it, and will not pay that number for it.
 
-If the listing has already taken a reduction, that is the most valuable single piece of
-evidence in the file. **A price cut that produced no measurable change in activity
-falsifies price as the primary constraint.** Say so plainly when you see it. This is the
-strongest available test and agents rarely read it that way.
+A reduction can address any of the three. What differs is what kind of reduction each
+mechanism requires. A threshold problem needs a crossing, and magnitude is irrelevant
+below it. A comparison problem needs the listing to land below specific competitors. A
+value-judgment problem needs magnitude. **This is why the mechanism has to be identified
+before a reduction is evaluated, and it is why a generic percentage cut so often changes
+nothing.**
+
+### The qualifying reduction test
+
+If the listing has already taken a reduction, that is the most valuable single item in
+the file. It is a completed experiment. But it only tested the mechanism it was capable
+of testing.
+
+A prior reduction is diagnostically usable only when all four hold:
+
+1. It **materially changed the listing's position** relative to the active comp set, or
+   crossed the relevant search threshold when threshold visibility is the hypothesis.
+2. The listing was **otherwise materially unchanged** across the same period. New photos,
+   a rewritten description, or a staging change confound the result.
+3. A **sufficient observation window** exists after the change. Use four weeks unless
+   comp-set turnover is faster.
+4. **Market-wide activity did not shift** enough over the window to swamp the comparison.
+
+When all four hold and activity did not move, write it as:
+
+> A qualifying reduction produced no measurable change in [stage]. That is strong
+> evidence against [the specific mechanism the reduction was capable of testing].
+
+Not as a blanket falsification of price. A $5,000 cut on a $512,000 listing tests nothing
+about a $500,000 threshold, and a cut during a segment freeze is not an isolated
+experiment.
+
+When the conditions do not hold, say which one failed and treat the reduction as
+uninformative rather than as evidence in either direction.
+
+Agents routinely read an unresponsive reduction as proof the cut was too small. That
+reading is available, but so is the opposite, and which one is correct depends entirely
+on whether the cut could have tested the mechanism at all.
 
 ---
 
@@ -138,9 +227,30 @@ froze has been given something valuable.
 
 ---
 
-## Step 6 — Rank, and name one
+## Step 6 — Rank, and name one, at three levels
 
-Output exactly one primary cause.
+Output exactly one diagnosis, stated at three distinct levels. Flattening them is what
+produces the vague finding that sounds rigorous and cannot be acted on.
+
+- **Primary constraint** — *where* the funnel breaks. One of the five stages.
+- **Primary cause** — *why* it breaks there. One entry from the taxonomy in
+  `reference/failure-modes.md`.
+- **Mechanism** — *how* that cause produces this specific observed pattern, in this
+  listing, traced to the evidence.
+
+Worked through:
+
+```
+Primary constraint:  Stage 4, second showings.
+Primary cause:       Expectation mismatch.
+Mechanism:           The gallery's wide-angle treatment of the main living space
+                     builds a pre-visit expectation of scale that the walkthrough
+                     does not confirm, so buyers resolve against the house on the
+                     first visit rather than returning undecided.
+```
+
+"Photography" and "expectation mismatch" are not competing causes. One is the mechanism
+and the other is the category. Never present them as alternatives to each other.
 
 Everything else goes into one of two buckets:
 
@@ -160,9 +270,11 @@ Every report uses these headings in this order. No additions, no reordering.
 ```
 ## Failure observed
 ## Comparison set
+## Comparison-set integrity
 ## Funnel reconstruction
-## Break point
+## Primary constraint
 ## Primary cause
+## Mechanism
 ## Evidence for this cause and against the alternatives
 ## Alternatives, and why they are demoted
 ## Null model
@@ -171,8 +283,8 @@ Every report uses these headings in this order. No additions, no reordering.
 ## What would prove this wrong
 ```
 
-**Length discipline.** The primary cause is one paragraph. If it takes three, you have
-not finished diagnosing.
+**Length discipline.** Constraint is one line. Cause is one line. Mechanism is one
+paragraph. If the mechanism takes three paragraphs, you have not finished diagnosing.
 
 **Prohibited in output:**
 
@@ -185,8 +297,16 @@ not finished diagnosing.
 
 **Confidence must be stated as one of:**
 
-- **Supported** — the funnel locates the break and the discriminators separate the causes
-- **Provisional** — the break is located but one discriminator is missing
-- **Undetermined** — the funnel cannot be reconstructed from what was supplied
+- **Supported** — the comparison set is Usable, the funnel locates the constraint, and
+  the discriminators separate the live causes
+- **Provisional** — the constraint is located but at least one of these holds: a
+  discriminator is missing, the comparison set is Usable with limitations, or the null
+  model could not be tested
+- **Undetermined** — the funnel cannot be reconstructed, or the comparison set is Not
+  usable
+
+These caps are not advisory. **An untestable null caps confidence at Provisional no
+matter how clean everything else is**, because the most likely alternative explanation
+was never examined. Same for a limited comparison set.
 
 Undetermined is a legitimate outcome. Name the missing input and stop.

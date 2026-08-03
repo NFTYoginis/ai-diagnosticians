@@ -1,5 +1,8 @@
 # Listing Stall Diagnostician
 
+**v0.2** · Status: built and exercised on constructed cases. Retrospective field
+validation pending.
+
 A folder you drop into a Claude Project. Claude becomes a diagnostician that works out
 why a specific listing has not sold.
 
@@ -8,8 +11,9 @@ seller conversation is coming, and everyone in the room is about to assume the a
 price. Before that assumption becomes a recommendation, this tells you whether the
 evidence actually supports it.
 
-Roughly half the time it does not, and a reduction on a listing whose real constraint is
-somewhere else costs the seller money without producing a sale.
+Price is not always the constraint, and a reduction aimed at the wrong one costs the
+seller money without producing a sale. Locating where the listing actually breaks is what
+tells you whether you are about to apply the right intervention to the wrong problem.
 
 ---
 
@@ -84,9 +88,15 @@ Full intake list in [reference/intake.md](reference/intake.md).
 
 A report with fixed headings, in this order:
 
-Failure observed · Comparison set · Funnel reconstruction · Break point · Primary cause ·
-Evidence for this cause and against the alternatives · Alternatives and why they are
-demoted · Null model · Confidence · Missing evidence · What would prove this wrong
+Failure observed · Comparison set · Comparison-set integrity · Funnel reconstruction ·
+Primary constraint · Primary cause · Mechanism · Evidence for this cause and against the
+alternatives · Alternatives and why they are demoted · Null model · Confidence · Missing
+evidence · What would prove this wrong
+
+The diagnosis comes at three levels rather than one, because flattening them produces a
+finding that sounds rigorous and cannot be acted on. **Constraint** is where the funnel
+breaks. **Cause** is why it breaks there. **Mechanism** is how that cause produces this
+specific pattern in this listing.
 
 Three worked examples in [examples.md](examples.md), including one that finds nothing
 wrong.
@@ -100,9 +110,11 @@ stage, there is no listing-specific problem and the market slowed. This comes ba
 often than agents expect, and it is the finding that saves the most money, because a
 reduction against a segment-wide slowdown buys nothing except a lower sale price.
 
-**"Your reduction already answered this."** If you cut the price and activity did not
-move, that is a completed experiment with a clean result: price was not the constraint.
-The usual reading is that the cut was too small. Read it the other way.
+**"Your reduction already answered this."** A prior cut is a completed experiment, but it
+only tested the mechanism it was capable of testing. A $5,000 trim on a $512,000 listing
+says nothing about a $500,000 search threshold. When a cut *did* qualify and activity
+still did not move, that is strong evidence against price at that mechanism, and the
+usual reading that the cut was simply too small is the weaker of the two available.
 
 **"I cannot tell you from this."** If the funnel cannot be reconstructed, it names the
 missing input and stops rather than producing a confident cause built on nothing. That is
@@ -114,10 +126,15 @@ the intended behavior, not a bug.
 
 The method turns on one rule.
 
-Every listing moves buyers through four stages: seen in search, clicked, visited, offered
-on. Find the earliest stage where yours falls below the comparable baseline. **That stage
-is the diagnosis site, and every stage after it is starved and therefore tells you
-nothing.**
+Every listing moves buyers through five stages: **views, engagement, showings, second
+showings, offers.** Find the earliest one where yours falls below the comparable baseline.
+**That stage is the diagnosis site, and every stage after it is starved and therefore
+tells you nothing.**
+
+Second showings are a stage rather than a metric because a first showing and a second
+showing are different decisions made on different information. The first is a judgment
+about the listing. The second is a judgment about the house. Most stalled listings that
+look healthy break exactly there, and it is invisible unless you count it.
 
 A listing getting a third of the normal views will also get few showings and no offers.
 Those are consequences, not separate faults. Reading them as independent problems is how

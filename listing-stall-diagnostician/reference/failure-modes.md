@@ -6,7 +6,12 @@ counter-signature that rules it out.
 
 ---
 
-## Stage 1 — Break at impressions and views
+Canonical funnel, used throughout: **1. Views · 2. Engagement · 3. Showings ·
+4. Second showings · 5. Offers.** Post-offer is outside the funnel.
+
+---
+
+## Stage 1 — Break at views
 
 The listing is not being seen. Nothing about the house itself is in evidence yet.
 
@@ -66,7 +71,7 @@ The description omits the terms buyers in this market filter and search on.
 
 ---
 
-## Stage 2 and 3 — Break at inquiries and showings
+## Stages 2 and 3 — Break at engagement and showings
 
 Buyers saw it in results and chose not to visit. What is in evidence: everything visible
 online. What is not in evidence: anything you can only learn inside the house.
@@ -78,8 +83,10 @@ Buyers compared it to what else that money buys in the same results page and pas
 - **Signature:** views at or above comp baseline, showings materially below. Comps at
   or below subject price offer more space, better condition, or better location.
   Inquiry notes or agent-to-agent feedback reference value.
-- **Rules it out:** a prior reduction produced no measurable change in showing rate.
-  That result falsifies price at this stage and it is the strongest test available.
+- **Weakens it:** a **qualifying** reduction that moved the listing below specific
+  competing comps produced no change in showing rate. See the qualifying reduction test
+  in `baselines.md`. A reduction that left the listing in the same competitive position
+  never tested this branch and is not evidence against it.
 
 ### 2B. Gallery gap
 
@@ -113,9 +120,14 @@ appointment-only with a slow response, pets, or a listed occupant restriction.
 
 ---
 
-## Stage 4 — Break at offers
+## Stages 4 and 5 — Break after the visit
 
-Buyers came and did not write. The listing did its job. Something in the visit did not.
+Buyers came and did not continue. The listing did its job. Something in the visit did not.
+
+**3A and 3B are Stage 4 causes** and show up as second showings collapsing. **3C is a
+Stage 5 cause** and shows up as second showings occurring normally while no offer
+follows. Reading which of the two stages broke separates "the house lost them on sight"
+from "the house kept them and the number did not."
 
 ### 3A. Expectation mismatch
 
@@ -147,10 +159,11 @@ They liked the house and will not pay that number for it.
 
 - **Signature:** feedback that names price explicitly and consistently, second showings
   occurring, comps closing below the subject's asking with comparable features.
-- **Rules it out:** no price mentions in feedback, or a prior reduction with no
-  corresponding activity change.
-- **Note:** this is the one branch where price is genuinely the primary cause. Confirm
-  it here rather than assuming it at Stage 1.
+- **Weakens it:** no price mentions in feedback, or a **qualifying** reduction of
+  sufficient magnitude with no corresponding change in offer activity.
+- **Note:** this is the branch where a magnitude reduction is the matching intervention.
+  Confirm it here rather than assuming it at Stage 1, where the same word describes a
+  completely different mechanism.
 
 ### 3D. Agent-side friction
 

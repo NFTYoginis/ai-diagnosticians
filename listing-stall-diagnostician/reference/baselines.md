@@ -49,7 +49,8 @@ the null model is live before you look at anything else.
 
 ## Per-stage baselines
 
-For each funnel stage, compute the comp set's figures and compare.
+Compute the comp set's figures for each of the five canonical stages and compare:
+**Views, Engagement, Showings, Second showings, Offers.**
 
 **Views.** Portal view counts across comps, normalized for time on market, since a
 listing live for 60 days accumulates more views than one live for 14. Compare views per
@@ -62,10 +63,27 @@ views, which tells you whether the listing converts attention into interest.
 **Showings.** Showings per week against the comp set. Also compute showings as a
 proportion of views, which separates "nobody saw it" from "people saw it and passed."
 
-**Second showings.** As a proportion of first showings. This is the most diagnostic
-figure available at Stage 4 and it is frequently sitting unused in the showing platform.
+**Second showings.** As a proportion of first showings. This is its own funnel stage, not
+a supporting metric, because a first showing and a second showing are different decisions
+made on different information. The first is a judgment about the listing. The second is a
+judgment about the house. The figure is frequently sitting unused in the showing platform.
 
-**Offers.** Count and timing relative to showing volume.
+**Offers.** Count and timing relative to second-showing volume.
+
+---
+
+## What comps are, and are not
+
+The comparison set is a natural comparison baseline. It is not an experimental control.
+
+Matching on geography, band, type, size, and window removes a great deal of confounding,
+which is why the method works at all. It does not hold everything constant. Comparable
+homes still differ in condition, exact street, layout, lot, view, school assignment,
+association terms, financing eligibility, seller constraints, and portal exposure.
+
+Write conclusions accordingly. "The subject falls below its comparison baseline at Stage
+3" is supportable. "The only variable is the listing" is not, and it is the phrasing that
+turns a good baseline into a false proof.
 
 ---
 
@@ -85,22 +103,47 @@ the answer. Do not manufacture a break by lowering the bar until one appears.
 
 ---
 
-## The reduction test
+## The qualifying reduction test
 
-The single most useful piece of history in any case file.
+The single most useful piece of history in any case file, and the easiest one to
+over-read.
 
-If the listing has already taken a price reduction, compare activity for the two weeks
-before and the four weeks after.
+A prior reduction is a completed experiment. But an experiment only tests what it was
+capable of testing, and most reductions are not capable of testing most price mechanisms.
 
-- **Activity rose materially** — price was a real constraint at the stage where activity
-  rose. Note which stage responded, because that identifies the mechanism.
-- **Activity unchanged** — **price is falsified as the primary constraint.** The market
-  was given the number it supposedly wanted and did not respond. State this directly.
-- **Views rose but showings did not** — the reduction crossed a search threshold and
-  fixed a visibility problem, exposing a second constraint underneath.
+### Step 1: does the reduction qualify
 
-Agents routinely read an unresponsive reduction as evidence that the cut was too small.
-Read it the other way. It is a completed experiment with a clean result.
+All four must hold before the result means anything.
+
+| Condition | Why it matters | Fails when |
+|---|---|---|
+| **Material position change** | The cut must have moved the listing relative to the active comp set, or crossed the search threshold if threshold visibility is the hypothesis | A 1% trim that leaves it in the same competitive position and the same filter band |
+| **Otherwise unchanged** | Simultaneous changes confound the result | New photos, rewritten copy, staging, or a status reset landed in the same window |
+| **Sufficient window** | Buyer response is not instant | Fewer than four weeks after the change, or less than the comp set's typical time-to-showing |
+| **Stable market** | The comparison must survive | A rate move, seasonal turn, or inventory shift hit the whole band over the same weeks |
+
+If any condition fails, the reduction is **uninformative**. Say which condition failed
+and do not use the reduction as evidence in either direction. An uninformative experiment
+is not weak evidence for the null. It is no evidence.
+
+### Step 2: read a qualifying reduction
+
+Compare activity for the two weeks before against the four weeks after, stage by stage.
+
+- **Activity rose at a stage** — price was a real constraint at that stage. Which stage
+  responded identifies the mechanism, and that is more valuable than the fact of the
+  response.
+- **Views rose, showings did not** — the reduction crossed a search threshold and solved
+  a visibility problem, exposing a second constraint underneath it. Two findings, not one.
+- **Nothing moved** — strong evidence against **the specific mechanism this reduction was
+  capable of testing.** Name that mechanism explicitly. A $12,000 cut that stayed above
+  $500,000 says nothing about threshold exclusion, and a cut that left the listing above
+  four superior comps says nothing about comparative value.
+
+The last one is where the discipline lives. Agents read an unresponsive cut as proof the
+cut was too small. That reading is available. So is the opposite. Which one is correct
+depends entirely on whether the cut could have tested the mechanism at all, and that is a
+question about the number, not about the market's mood.
 
 ---
 
