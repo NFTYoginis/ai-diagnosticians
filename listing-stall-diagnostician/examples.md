@@ -139,6 +139,13 @@ broken out by channel.
 
 47 days against a comp range of 9 to 28. Beyond the range. Confirmed.
 
+### Comparison set
+
+Six properties, same district, same property type, all listed inside the subject's
+47-day window. Price range $379,000 to $421,000 against the subject's $412,000. Size
+1,340 to 1,620 sq ft against the subject's 1,410. Four sold, one pending, one active.
+Two were listed in the final three weeks, which gives a late-window read.
+
 ### Comparison-set integrity
 
 **Usable with limitations.** Five of six comps match on geography, band, type, and
@@ -340,8 +347,9 @@ Absorption data showing the band is clearing at prior speed, which would mean th
 set is unrepresentative and the subject's normality is an artifact of a badly chosen
 comparison group.
 
-### Note on what this case is for
+---
 
+**Why this case is in the set.** 
 The requested output was support for a second reduction. The evidence does not support
 one. No constraint specific to this property was found, so a reduction does not address
 anything. What it does is lower the price the property eventually sells at, in a market

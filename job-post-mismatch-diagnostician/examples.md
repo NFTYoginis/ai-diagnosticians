@@ -234,7 +234,7 @@ about anything.
 The range is posted as $92,000 to $104,000. **The team supplied both boards' published filter
 documentation with the case:** each indexes a posted range on its **lower** bound and offers
 candidate-set minimums in $10,000 increments. Indexed at $92,000, the post is absent from every
-search floored at $100,000, which is where the volume in this role and market sits, while its
+search floored at $100,000 — the recruiter supplied both boards' published filter documentation with the case, establishing lower-bound indexing in $10,000 increments. What share of searches use any given floor was not supplied and is not assumed. Its
 actual top of $104,000 would clear that floor comfortably. The role is not underpaid. In the
 searches that matter, it is not present.
 
@@ -437,8 +437,9 @@ An addressable-population count showing the pool is large. That would mean the c
 drawing badly rather than drawing from a small pool, and the subject's normality would be an
 artifact of a comparison group sharing its problem.
 
-### Note on what this case is for
+---
 
+**Why this case is in the set.** 
 The requested output was the case for a band increase. The evidence does not support one. No
 constraint specific to this post was located, so an increase does not address anything the
 diagnosis identified. What it does is reset the floor for every future hire at this level, in a

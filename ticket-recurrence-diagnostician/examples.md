@@ -391,8 +391,9 @@ masked it. Or a per-tier rate showing the newly eligible tier contacting at seve
 rate of the established one, which would mean the aggregate is hiding a real break and the
 comparison against the set's pooled range is answering the wrong question.
 
-### Note on what this case is for
+---
 
+**Why this case is in the set.** 
 The requested output was a diagnosis of where the article is failing. The evidence does not
 locate a failure. No stage falls below the comparison range, the rate is flat against its own
 history, and the change the team already made cannot be read in either direction.
