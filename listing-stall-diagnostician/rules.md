@@ -143,6 +143,22 @@ Concretely:
 When you write the report, say explicitly which stages you are not drawing conclusions
 about, and why.
 
+### Two techniques that fall out of this rule
+
+**Eliminate a stage structurally when its baseline is missing.** If a stage has no
+comparison data, you cannot test it directly, and you do not have to. A break at stage N
+starves stage N+1. So if stage N+1 is at or above baseline, stage N cannot be the break
+site, regardless of whether you could measure it. Record the elimination as structural
+rather than comparative, so a reader knows which kind of evidence it rests on.
+
+**Compute pass-through between adjacent stages, not just levels.** A stage can be below
+baseline in absolute terms while converting at a normal rate, and the two mean different
+things. Views to showings is the most useful pair: if the subject converts views to
+showings at the comp-normal percentage but has a third of the views, the deficit is
+volume and the break is upstream. If it converts at half the comp rate on normal views,
+the deficit is performance and the break is here. Levels tell you a stage is low.
+Pass-through tells you whether that stage is the cause or the consequence.
+
 ---
 
 ## Step 4 — Run the discriminators for the break stage
@@ -288,7 +304,14 @@ paragraph. If the mechanism takes three paragraphs, you have not finished diagno
 
 **Prohibited in output:**
 
-- Any specific price, reduction amount, or percentage
+- **Any prospective price, reduction amount, or percentage.** No recommended number, no
+  range, no "somewhere around." Historical figures already in the case file may be cited
+  where the method requires them, since the qualifying reduction test cannot be shown
+  without reference to what the reduction actually did. State the *effect* wherever it
+  carries the argument ("crossed no round-number threshold and left the subject in the
+  same position relative to every active comp"), and cite the figure only when the effect
+  alone would be unverifiable. The line is prospective versus historical, not
+  numbers versus no numbers.
 - Rewritten listing copy, headlines, or descriptions
 - A recommended action of any kind, including "consider" and "you may want to"
 - Ranked lists of improvements

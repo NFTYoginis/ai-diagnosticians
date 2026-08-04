@@ -152,6 +152,17 @@ Buyers see one specific thing and stop. It is the same thing every time.
   really an office, road noise audible only on site.
 - **Rules it out:** feedback is scattered across unrelated issues, which points back to
   price or expectation instead.
+- **Does NOT separate it from 3A:** the cluster count. Both 3A and 3B produce a cluster
+  on the same feature, so five-of-nine naming the living room is consistent with either.
+  **Framing decides, not count.** 3B notes name a fixed attribute: "the living room is
+  small." 3A notes are comparative: "smaller than the pictures," "not what they
+  pictured." A buyer objecting to a room says the room is wrong. A buyer who was
+  surprised says the listing was wrong. Read the grammar, not the tally.
+
+> **General form of that rule.** When two causes in the same stage produce a cluster on
+> the same feature, the clustering count screens them in together and cannot rank them.
+> Find the property that differs between the two and read that instead. A count that
+> both hypotheses predict is not a discriminator.
 
 ### 3C. Post-visit value judgment
 

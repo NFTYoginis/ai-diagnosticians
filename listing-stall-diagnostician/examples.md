@@ -170,12 +170,18 @@ meaningful number of buyers reached any of them.
 
 ### Mechanism
 
-The listing is priced at $412,000. Five of six comps sit between $379,000 and $398,000,
-and the local convention in this band places buyer filter ceilings at $400,000 and
-$425,000. At $412,000 the listing is absent from every search capped at $400,000, where
-the volume in this submarket sits, while appearing in $425,000 searches against larger
-units it cannot win against. It is not competing badly. In the searches that matter, it
-is not present.
+The listing is priced at $412,000. Five of six comps sit between $379,000 and $398,000.
+**The agent supplied the local filter convention with the case:** buyer search ceilings
+in this band sit at $400,000 and $425,000. At $412,000 the listing is absent from every
+search capped at $400,000, where the volume in this submarket sits, while appearing in
+$425,000 searches against larger units it cannot win against. It is not competing badly.
+In the searches that matter, it is not present.
+
+*Note on why that attribution is written out.* A filter convention is a fact about a
+local market, not something derivable from the case file. Asserting one you were not
+given is inference dressed as evidence, which `reference/intake.md` prohibits. If the
+convention is not supplied, threshold exclusion cannot be confirmed and stays tied with
+the other live Stage 1 causes. Name the missing input instead of inventing the number.
 
 ### Evidence for this cause and against the alternatives
 
