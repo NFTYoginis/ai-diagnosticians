@@ -16,7 +16,13 @@ how it got there, and stops before prescribing anything.
 
 | Diagnostician | Diagnoses | Version | Validation |
 |---|---|---|---|
-| [listing-stall-diagnostician](listing-stall-diagnostician/) | Why a specific real estate listing hasn't sold, and whether price is actually the cause | v0.2 | Constructed cases + regression assertions in [tests/](listing-stall-diagnostician/tests/). **No retrospective field validation yet.** |
+| [listing-stall-diagnostician](listing-stall-diagnostician/) | Why a specific real estate listing hasn't sold, and whether price is actually the cause | v0.4 | Three independent blind runs, all passed. Regression assertions in [tests/](listing-stall-diagnostician/tests/). **No retrospective field validation yet.** |
+| [ticket-recurrence-diagnostician](ticket-recurrence-diagnostician/) | Why support tickets keep arriving for something the documentation already covers | v0.1 | Structure verified against the reference. **Never run. No blind runs yet.** |
+| [job-post-mismatch-diagnostician](job-post-mismatch-diagnostician/) | Why a job post draws applicants but not qualified ones | v0.1 | Structure verified against the reference. **Never run. No blind runs yet.** |
+
+The validation column is the point of the table. Only the first folder has been put in
+front of readers who did not build it, and the other two have not been run once. They are
+not being presented as equivalent.
 
 Further diagnosticians in the same architecture are in progress. Each will carry its own
 validation status in this table rather than borrowing credibility from the others.

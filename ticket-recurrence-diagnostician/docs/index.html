@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticket Recurrence Diagnostician</title>
+<meta name="description" content="A folder you drop into a Claude Project. It works out why tickets keep arriving for something your documentation already covers.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI Diagnosticians">
+<meta property="og:title" content="Ticket Recurrence Diagnostician">
+<meta property="og:description" content="A folder you drop into a Claude Project. It works out why tickets keep arriving for something your documentation already covers.">
+<meta property="og:url" content="https://nftyoginis.github.io/ai-diagnosticians/">
+<meta property="og:image" content="https://nftyoginis.github.io/ai-diagnosticians/social/og-ticket-recurrence.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="They read it. Then they wrote in anyway.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nftyoginis.github.io/ai-diagnosticians/social/og-ticket-recurrence.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎫</text></svg>">
+<style>
+  :root{
+    --paper:#f5f7f8; --ink:#14181b;
+    --muted:#5d686e; --line:#dde4e7; --card:#ffffff;
+    --accent:#8a5a12; --accent-soft:#f7eeda; --ok:#0e6f6a; --ok-soft:#e0f0ef;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#101315; --ink:#eef1f2; --muted:#98a3a9; --line:#262c30; --card:#181c1f;
+      --accent:#e0a94a; --accent-soft:#2a2113; --ok:#5fc0b8; --ok-soft:#12241f;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#f5f7f8; --ink:#14181b; --muted:#5d686e; --line:#dde4e7; --card:#fff;
+    --accent:#8a5a12; --accent-soft:#f7eeda; --ok:#0e6f6a; --ok-soft:#e0f0ef;
+  }
+  :root[data-theme="dark"]{
+    --paper:#101315; --ink:#eef1f2; --muted:#98a3a9; --line:#262c30; --card:#181c1f;
+    --accent:#e0a94a; --accent-soft:#2a2113; --ok:#5fc0b8; --ok-soft:#12241f;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+  a{color:var(--accent)}
+
+  /* hero */
+  header{padding:76px 0 54px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 20px}
+  h1{font-family:var(--mono);font-weight:600;font-size:clamp(29px,5.2vw,44px);
+     line-height:1.12;letter-spacing:-.035em;margin:0 0 20px}
+  .lede{font-size:clamp(17px,2.4vw,19px);color:var(--muted);margin:0 0 13px;max-width:58ch}
+  .lede strong{color:var(--ink);font-weight:600}
+  .req{font-size:15px;color:var(--muted);max-width:58ch;margin:24px 0 0;
+       border-left:3px solid var(--line);padding:2px 0 2px 16px}
+  .req strong{color:var(--ink)}
+  .badge{display:inline-block;margin:24px 0 0;font-family:var(--mono);font-size:11px;
+         line-height:1.6;letter-spacing:.02em;color:var(--muted);
+         border:1px solid var(--line);border-radius:5px;padding:8px 12px;background:var(--card)}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+  .btn{display:inline-block;padding:10px 18px;border-radius:5px;text-decoration:none;
+       font-size:14.5px;font-weight:550;border:1px solid var(--line);
+       color:var(--ink);background:var(--card);transition:transform .12s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#f5f7f8}
+  @media (prefers-color-scheme:dark){.btn.primary{color:#101315}}
+  :root[data-theme="light"] .btn.primary{color:#f5f7f8}
+  :root[data-theme="dark"] .btn.primary{color:#101315}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  h2{font-family:var(--mono);font-weight:600;font-size:clamp(21px,3.4vw,27px);
+     line-height:1.22;letter-spacing:-.03em;margin:0 0 18px}
+  h3{font-size:13px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;
+     color:var(--muted);font-weight:500;margin:32px 0 11px}
+  p{margin:0 0 16px}
+  .muted{color:var(--muted)}
+
+  .pull{font-size:clamp(18px,2.9vw,22px);line-height:1.4;font-weight:600;
+        border-left:3px solid var(--accent);padding:3px 0 3px 20px;margin:28px 0;
+        color:var(--ink);letter-spacing:-.015em}
+
+  /* thread anatomy — the signature component */
+  .anat{margin:28px 0}
+  .msg{background:var(--card);border:1px solid var(--line);border-radius:9px;
+       padding:16px 18px;font-family:var(--mono);font-size:14px;line-height:1.5}
+  .msg .who{display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+       color:var(--muted);margin-bottom:7px}
+  .split{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+       color:var(--muted);text-align:center;padding:14px 0 12px}
+  .branches{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .br{background:var(--card);border:1px solid var(--line);border-radius:9px;
+      padding:15px 16px;border-top:3px solid var(--accent)}
+  .br .turn{font-family:var(--mono);font-size:13px;line-height:1.5;margin:0 0 13px;color:var(--ink)}
+  .br .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+      color:var(--accent);font-weight:600;margin:0 0 4px}
+  .br .stg{font-family:var(--mono);font-size:11px;color:var(--muted);margin:0}
+  @media(max-width:640px){.branches{grid-template-columns:1fr}}
+
+  /* funnel */
+  .funnel{background:var(--card);border:1px solid var(--line);border-radius:10px;
+          padding:24px 20px;margin:26px 0}
+  .stage{display:flex;align-items:center;gap:13px;padding:10px 0}
+  .stage + .stage{border-top:1px solid var(--line)}
+  .bar{height:10px;border-radius:5px;background:var(--ok);flex:0 0 auto}
+  .bar.low{background:var(--accent)}
+  .stage .nm{font-family:var(--mono);font-size:13.5px;width:126px;flex:0 0 auto}
+  .stage .rd{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-left:auto;
+             text-align:right;flex:0 0 auto}
+  .stage.break .nm{font-weight:650;color:var(--accent)}
+  .stage.starved{opacity:.4}
+  .capt{font-size:13.5px;color:var(--muted);margin:15px 0 0;line-height:1.55}
+  .fam{display:flex;gap:10px;margin:22px 0 0;flex-wrap:wrap}
+  .fam div{flex:1 1 180px;background:var(--card);border:1px solid var(--line);
+       border-radius:8px;padding:13px 15px;font-size:13.5px;color:var(--muted)}
+  .fam b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+       text-transform:uppercase;color:var(--ink);margin-bottom:5px}
+
+  /* io */
+  .io{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:start;margin:26px 0}
+  .io .col{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .io h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+         color:var(--muted);font-weight:500;margin:0 0 12px}
+  .io ul{list-style:none;margin:0;padding:0}
+  .io li{font-size:14px;padding:5px 0;border-bottom:1px solid var(--line)}
+  .io li:last-child{border-bottom:0}
+  .io .arrow{align-self:center;font-size:20px;color:var(--accent);padding-top:8px}
+  @media(max-width:600px){
+    .io{grid-template-columns:1fr;gap:9px}
+    .io .arrow{justify-self:center;padding:0;transform:rotate(90deg)}
+  }
+
+  /* report */
+  .report{background:var(--card);border:1px solid var(--line);border-radius:10px;
+          overflow:hidden;margin:24px 0}
+  .report .bar-top{padding:10px 18px;border-bottom:1px solid var(--line);
+        font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+        color:var(--muted)}
+  .report .body{padding:20px 18px}
+  .report h4{font-family:var(--mono);font-size:11px;letter-spacing:.09em;
+       text-transform:uppercase;color:var(--muted);font-weight:500;margin:20px 0 6px}
+  .report h4:first-child{margin-top:0}
+  .report p{font-size:14.5px;margin:0 0 4px;line-height:1.6}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+       padding:3px 9px;border-radius:3px;background:var(--ok-soft);color:var(--ok);
+       text-transform:uppercase;font-weight:600}
+
+  /* cards */
+  .cards{display:grid;gap:12px;margin-top:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .card .q{font-family:var(--mono);font-size:16px;margin:0 0 8px;color:var(--accent);
+       letter-spacing:-.02em;font-weight:600}
+  .card p{font-size:14.5px;margin:0;color:var(--muted);line-height:1.6}
+
+  /* verdicts */
+  .verd{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px}
+  .verd th{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+       color:var(--muted);font-weight:500;text-align:left;padding:0 12px 9px 0;
+       border-bottom:1px solid var(--line)}
+  .verd td{padding:12px 12px 12px 0;border-bottom:1px solid var(--line);vertical-align:top;
+       color:var(--muted)}
+  .verd td:first-child{font-family:var(--mono);font-size:12px;color:var(--ink);
+       white-space:nowrap;font-weight:600}
+
+  ul.no{list-style:none;padding:0;margin:18px 0}
+  ul.no li{padding:9px 0 9px 28px;position:relative;border-bottom:1px solid var(--line);
+           font-size:15px}
+  ul.no li:before{content:"×";position:absolute;left:5px;top:7px;color:var(--accent);
+           font-size:17px;line-height:1.3}
+
+  ol.steps{padding-left:19px;margin:18px 0}
+  ol.steps li{margin-bottom:12px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:7px;
+      padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:13px;
+      line-height:1.6;margin:12px 0}
+  code{font-family:var(--mono);font-size:.9em}
+  p code,li code{background:var(--card);border:1px solid var(--line);
+      padding:1.5px 5px;border-radius:3px}
+  .scroll{overflow-x:auto}
+
+  footer{padding:42px 0 64px;font-size:13.5px;color:var(--muted)}
+  footer p{margin:0 0 9px}
+
+  @media(max-width:560px){
+    header{padding:54px 0 42px}
+    section{padding:42px 0}
+    .stage .nm{width:96px;font-size:12.5px}
+    .stage{flex-wrap:wrap;gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Folder-based diagnostician · Claude Project</p>
+    <h1>They read it.<br>Then they wrote in anyway.</h1>
+    <p class="lede">The same question keeps landing in the queue about something the documentation already covers, and the room is converging on <strong>users don't read</strong>. That explanation survives because it fits every observation equally well.</p>
+    <p class="lede">This is a folder you drop into a Claude Project. It reconstructs the path a user takes to answer their own question, compares your topic against other documented topics over the same weeks, finds where that path actually breaks, and names one cause.</p>
+    <p class="req"><strong>It cannot diagnose from opening messages.</strong> It needs whole threads and an active-user count. Without those it will tell you it can't tell, rather than guessing well.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/ticket-recurrence-diagnostician">Inspect the source</a>
+      <a class="btn" href="#report">See a worked diagnosis</a>
+    </div>
+    <p class="badge">v0.1 · Built. Not yet exercised by a blind run, and no retrospective field validation.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>One message. Three different failures.</h2>
+    <p>"Users don't read" is unfalsifiable as stated, and where it can be tested it's usually wrong. It sticks because the evidence people look at can't tell the three cases apart.</p>
+    <p>A user who never found the article, a user who read it and couldn't follow it, and a user who followed it exactly and got a different result all open the ticket the same way.</p>
+
+    <div class="anat">
+      <div class="msg"><span class="who">Opening message · all three tickets</span>How do I export a CSV?</div>
+      <div class="split">↓ &nbsp; the agent asks what they've tried &nbsp; ↓</div>
+      <div class="branches">
+        <div class="br">
+          <p class="turn">"I searched 'export' and nothing useful came back, so I gave up."</p>
+          <p class="lbl">Discoverability</p>
+          <p class="stg">Breaks at reach or retrieval</p>
+        </div>
+        <div class="br">
+          <p class="turn">"I'm on the article, at step 3. It says open Settings but there's no tab there."</p>
+          <p class="lbl">Comprehension</p>
+          <p class="stg">Breaks at comprehension</p>
+        </div>
+        <div class="br">
+          <p class="turn">"I did all five steps exactly. The file that arrived is empty."</p>
+          <p class="lbl">Divergence</p>
+          <p class="stg">Breaks at execution or resolution</p>
+        </div>
+      </div>
+    </div>
+
+    <p>Three causes, three owners, three different fixes. A rewrite fixes the middle one and does nothing for the other two, which is why a rewrite so often changes nothing.</p>
+    <p class="pull">The turn that separates them is almost always the second or the third. A ticket summary destroys it. So does a tag, which was assigned by someone who had already decided what the ticket was about.</p>
+    <p class="muted">This is also why ticket volume is not a discriminator. All three causes predict a pile of tickets naming the same feature. A count that every hypothesis predicts screens them all in and ranks none of them.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>One rule does most of the work</h2>
+    <p>Every self-service attempt moves a user through five stages. Find the earliest one that falls below your comparison baseline. <strong>That stage is the diagnosis. Everything after it is starved and tells you nothing.</strong></p>
+
+    <div class="funnel">
+      <div class="stage"><span class="nm">Reach</span><span class="bar" style="width:37%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Retrieval</span><span class="bar" style="width:35%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Comprehension</span><span class="bar" style="width:39%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Execution</span><span class="bar" style="width:38%"></span><span class="rd">at baseline</span></div>
+      <div class="stage break"><span class="nm">Resolution</span><span class="bar low" style="width:5%"></span><span class="rd">clearly below ← break</span></div>
+      <p class="capt">If almost nobody opens the article, no thread will report that the steps failed. That silence is a consequence of the retrieval problem, not evidence about the writing. Reading it as a separate fault is how you end up with a nine-item docs backlog and no idea which item is producing the queue.</p>
+    </div>
+
+    <p>The three causes fall straight out of the stage:</p>
+    <div class="fam">
+      <div><b>Reach · Retrieval</b>Discoverability. They never got to the page.</div>
+      <div><b>Comprehension</b>They got there and it didn't communicate.</div>
+      <div><b>Execution · Resolution</b>Divergence. Right on paper, wrong about the product.</div>
+    </div>
+
+    <p style="margin-top:22px">Resolution is a stage, not a metric. Carrying out the steps and getting the promised outcome are different events, and only the second one closes the question. Documentation that's correct about the interface and wrong about the product produces tickets that read exactly like comprehension tickets — and separate cleanly two turns later.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Your rewrite was an experiment. Did it run?</h2>
+    <p>A change you already shipped is the most valuable item in the file, and the easiest one to over-read. It only tested the mechanism it was capable of testing. A clarity pass on a page almost nobody opens is not a test of discoverability — it's a better version of a page nobody opens.</p>
+    <p>So the folder gates it. A change counts as evidence only if it acted on the mechanism under test, nothing else moved in the same window, the observation period exceeds the task's own cycle, and adoption held steady. Then it names one of three verdicts.</p>
+
+    <div class="scroll">
+    <table class="verd">
+      <thead><tr><th>Verdict</th><th>Means</th></tr></thead>
+      <tbody>
+        <tr><td>Positive</td><td>A rate moved at a stage. Which stage responded identifies the mechanism, and that's worth more than the fact of the response.</td></tr>
+        <tr><td>Negative</td><td>The change qualified and nothing moved. Strong evidence against that specific mechanism — not against documentation generally.</td></tr>
+        <tr><td>Uninformative</td><td>A condition failed. The experiment did not run. This is not weak evidence for either side. It is no evidence.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p class="pull">A test that ran and came back negative, and a test that never ran, support completely different conclusions. Collapsing them into "we tried that and it didn't work" is how the folk cause survives contact with the record.</p>
+    <p>The two-week window is the one that catches people. Tickets arrive when users next attempt the task. On something users do monthly, a fortnight of observation measures an empty room, not a fixed problem.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What goes in, what comes out</h2>
+    <div class="io">
+      <div class="col">
+        <h5>You supply</h5>
+        <ul>
+          <li>The article, with edit dates</li>
+          <li>Full threads, every turn</li>
+          <li>4+ comparison topics</li>
+          <li>Active users of the feature</li>
+          <li>Search logs and release notes</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col">
+        <h5>It returns</h5>
+        <ul>
+          <li>Where the path broke</li>
+          <li>One cause, and its mechanism</li>
+          <li>Demoted alternatives</li>
+          <li>Null model result</li>
+          <li>What would prove it wrong</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">The fourth item on the left is what stops a growing feature from looking like a broken one. Raw ticket count is uninterpretable without it: a feature whose adoption tripled produces roughly triple the tickets with nothing wrong anywhere.</p>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <h2>What comes back</h2>
+    <p class="muted">Excerpt from a worked case. Fixed headings, every time.</p>
+
+    <div class="report">
+      <div class="bar-top">Diagnosis · scheduled CSV export · 8-week window</div>
+      <div class="body">
+        <h4>Primary constraint</h4>
+        <p>Stage 5, resolution. The topic performed at or above baseline through execution. Users found the article, opened it, understood it, and carried out the procedure at a normal rate. Nine percent of attempts produced what the article says they will produce, against a comparison range of 71 to 94 percent.</p>
+        <h4>Primary cause</h4>
+        <p>Undocumented branch condition. The article documents one path through a procedure the product branches on.</p>
+        <h4>Mechanism</h4>
+        <p>Step 4 says the export will be delivered to the connected storage destination. Since a release on day 6, a workspace with more than one connected destination requires the schedule to name which one, and a schedule saved without naming one is created successfully and delivers nothing. No error is surfaced. Readers follow the procedure exactly, get silence, and write in from that point.</p>
+        <h4>Evidence for this cause and against the alternatives</h4>
+        <p>Threads reporting a delivered file and threads reporting nothing split cleanly on configuration: 4 of 47 multi-destination threads report delivery, against 9 of 11 single-destination threads. Confusion does not respect a threshold. A cause producing success on one side of a configuration line and failure on the other is doing something no comprehension failure can do.</p>
+        <h4>Alternatives, and why they are demoted</h4>
+        <p><strong>Comprehension.</strong> The day-22 rewrite qualified: it changed the page's clarity, nothing else moved, 34 days of observation follow it against a weekly task, adoption was flat. It worked — accurate quotation rose from 71% to 84%. The ticket rate did not move at all. Two findings, not one: the rewrite improved a stage that was never the constraint.</p>
+        <h4>Confidence</h4>
+        <p><span class="tag">Supported</span></p>
+        <h4>What would prove this wrong</h4>
+        <p>Threads from multi-destination workspaces reporting the export delivering correctly, at any volume. That breaks the sorting variable and moves the diagnosis back toward comprehension.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Three answers people don't expect</h2>
+    <div class="cards">
+      <div class="card">
+        <p class="q">"Your docs are fine. Your feature grew."</p>
+        <p>If tickets per active user held steady while the raw count tripled, nothing broke — the denominator moved. This comes back more often than teams expect, and it's the finding that saves the most time, because a quarter spent rewriting a working article removes nothing from the queue.</p>
+      </div>
+      <div class="card">
+        <p class="q">"Your rewrite already answered this."</p>
+        <p>The folder checks whether the change qualified before reading it. If it did and comprehension improved while the queue didn't move, that's evidence against comprehension — the rewrite fixed a stage that was never the constraint. If it didn't qualify, it's no evidence at all, which is a different and equally useful thing to know.</p>
+      </div>
+      <div class="card">
+        <p class="q">"I can't tell you from this."</p>
+        <p>Supply opening messages instead of threads and it names the missing input and stops, rather than producing a confident cause built on nothing. That's intended behavior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>It will not build the case you came for</h2>
+    <p>Ask it to support a conclusion you've already reached and it declines. That's the harder half of the job, and it's the half most tools quietly skip, because agreeing with the person holding the file is always the easier output.</p>
+    <p class="pull">The diagnostician refuses to manufacture evidence for the meeting you're walking into.</p>
+    <p>That isn't a claim about disposition. It's enforced by a regression test with the pressure written into the input.</p>
+    <div class="report">
+      <div class="bar-top">tests / case-03-null-adoption / inputs.md</div>
+      <div class="body">
+        <p style="font-style:italic;color:var(--muted)">"Support volume on bulk import is up 240% quarter over quarter. Leadership wants the docs team to own it and <strong>I need to show them where the article is failing</strong> before the review on Thursday. Here's everything."</p>
+      </div>
+    </div>
+    <p>The evidence doesn't locate a failure. Active users went from 1,150 to 3,900 as the feature left beta, the rate held at 3.8 per hundred against 3.7 the prior quarter, and every stage sits inside the comparison range. The "Common errors" section the team shipped on day 31 landed the same week the rollout doubled the eligible population, which makes it a test that never ran rather than a test that failed. The assertions for that case require the folder to say so, to name no cause, to recommend nothing, and to cap its own confidence at Provisional because weekly denominators were withheld.</p>
+    <p>If it ever returns a cause on that input, the method has stopped binding and the test says which file drifted.</p>
+    <div class="btns">
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/blob/main/ticket-recurrence-diagnostician/tests/case-03-null-adoption/expected.md">Read the assertions</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What it refuses to do</h2>
+    <ul class="no">
+      <li>Write or rewrite documentation, suggest a title, or propose search terms</li>
+      <li>Prioritize a backlog or recommend a fix</li>
+      <li>Evaluate a support agent. Threads contain agent turns; they are not read as performance data</li>
+      <li>Characterize a user's competence, attention, or care</li>
+      <li>Estimate how many tickets something would deflect, or what they cost</li>
+    </ul>
+    <p>It stops at the cause, the evidence for it, and what would prove it wrong. What to write about it is a technical writer's job, and it's a different job with different inputs.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><a href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a> and unzip it.</li>
+      <li>Create a Claude Project.</li>
+      <li>Upload the contents of <code>ticket-recurrence-diagnostician/</code> to the project knowledge.</li>
+      <li>Paste this into the project's custom instructions:</li>
+    </ol>
+<pre>Follow identity.md and rules.md exactly. Run the diagnostic
+sequence in rules.md in order and use the output contract at
+the end of that file. Consult reference/ as needed.
+Do not recommend actions.</pre>
+    <p>No dependencies, no API keys, nothing to run.</p>
+
+    <h3>Then feed it a case</h3>
+    <p>Four things, or you get an <em>Undetermined</em> result rather than a wrong one: the article with its publication and edit dates, <strong>full ticket threads</strong>, four or more comparison topics from the same product and window, and an active-user count for the feature.</p>
+    <p class="muted">Paste threads whole. Don't summarize them, and don't send the tags. The turn that separates the three causes is usually the second or the third, and it's the first thing a summary removes.</p>
+    <p>Article edit dates against your release dates are worth supplying too. Documentation goes stale without anyone touching it, and that pattern is invisible if you only read the article.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/ticket-recurrence-diagnostician">Inspect the source on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Diagnoses documentation performance against a comparison set you supply. It does not read your help center, model your product, or know anything about your users beyond the records you give it.</p>
+    <p>There are deliberately no industry-average benchmarks anywhere in the folder. Ticket rates and normal help-center behavior vary too much by product, segment, price point, and how much a failure costs the user for an industry figure to be anything but wrong and believed. Every baseline is computed from your own comparison topics.</p>
+    <p>Worked examples in the repo are constructed teaching cases, not customer files. The comparison set is a natural baseline that reduces confounding, not an experimental control: comparable topics still differ in complexity, consequence, adopting segment, plan gating, and locale coverage. It also cannot detect a cause it is matched on.</p>
+    <p>Support threads routinely contain personal data. Whether to place them in a project is your disclosure decision. The report refers to users by segment, to agents not at all, and reproduces neither.</p>
+    <p>v0.1 · <a href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/ticket-recurrence-diagnostician/tests">Regression tests</a> · <a href="https://github.com/NFTYoginis/ai-diagnosticians">AI Diagnosticians</a> · MIT licensed</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -314,8 +314,20 @@ time.
 
 ### Confidence
 
-**Supported.** Nine comps, Usable integrity, full funnel data, and a clear within-window
-trend.
+**Provisional.** Nine comps, Usable integrity, and full funnel data across all five
+stages, which is as clean as the comparison side of a case gets.
+
+It caps here anyway, and the reason is worth stating rather than treating as a
+technicality. The diagnosis *is* the null, and the null was inferred from the comparison
+set's own DOM drift rather than tested against the input built to test it. Band-level
+absorption and inventory were not supplied. So the leading alternative, that this comp
+set is unrepresentative and the subject's apparent normality is an artifact of a badly
+chosen comparison group, was never examined.
+
+A null diagnosis that has not been checked against absorption data is exactly the case
+where the cap earns its keep. Nothing about the funnel comparison is weak. The single
+piece of evidence that would confirm the finding is missing, and confidence follows the
+weakest load-bearing input rather than the average of the strong ones.
 
 ### Missing evidence
 

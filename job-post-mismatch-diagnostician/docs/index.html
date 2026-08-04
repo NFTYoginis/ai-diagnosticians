@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Post Mismatch Diagnostician</title>
+<meta name="description" content="A folder you drop into a Claude Project. It works out why a requisition isn't producing qualified applicants, and whether compensation is actually the reason. It never reads a candidate.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI Diagnosticians">
+<meta property="og:title" content="Job Post Mismatch Diagnostician">
+<meta property="og:description" content="A folder you drop into a Claude Project. It works out why a requisition isn't producing qualified applicants, and whether compensation is actually the reason. It never reads a candidate.">
+<meta property="og:url" content="https://nftyoginis.github.io/ai-diagnosticians/">
+<meta property="og:image" content="https://nftyoginis.github.io/ai-diagnosticians/social/og-job-post-mismatch.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Before you raise the band.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nftyoginis.github.io/ai-diagnosticians/social/og-job-post-mismatch.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+<style>
+  :root{
+    --paper:#f4f5f8; --ink:#15161f;
+    --muted:#5a5d70; --line:#dcdde6; --card:#ffffff;
+    --accent:#4b3f96; --accent-soft:#e9e6f5; --ok:#4a7a52; --ok-soft:#e5efe6;
+    --warn:#8a6a1e;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#111219; --ink:#eceef5; --muted:#9a9db0; --line:#282a36; --card:#191b24;
+      --accent:#a89ae8; --accent-soft:#221d3a; --ok:#84b88c; --ok-soft:#18251a;
+      --warn:#d6ab52;
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#f4f5f8; --ink:#15161f; --muted:#5a5d70; --line:#dcdde6; --card:#fff;
+    --accent:#4b3f96; --accent-soft:#e9e6f5; --ok:#4a7a52; --ok-soft:#e5efe6; --warn:#8a6a1e;
+  }
+  :root[data-theme="dark"]{
+    --paper:#111219; --ink:#eceef5; --muted:#9a9db0; --line:#282a36; --card:#191b24;
+    --accent:#a89ae8; --accent-soft:#221d3a; --ok:#84b88c; --ok-soft:#18251a; --warn:#d6ab52;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+       font-size:17.5px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:800px;margin:0 auto;padding:0 26px}
+  a{color:var(--accent)}
+
+  header{padding:96px 0 68px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.15em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 24px}
+  h1{font-weight:750;font-size:clamp(38px,7vw,62px);line-height:1.02;
+     letter-spacing:-.038em;margin:0 0 24px}
+  .lede{font-size:clamp(18px,2.5vw,21px);color:var(--muted);margin:0 0 15px;max-width:56ch}
+  .lede strong{color:var(--ink);font-weight:650}
+  .req{font-size:16px;color:var(--muted);max-width:56ch;margin:28px 0 0;
+       border-left:3px solid var(--line);padding:3px 0 3px 19px}
+  .req strong{color:var(--ink)}
+  .badge{display:inline-block;margin:26px 0 0;font-family:var(--mono);font-size:11.5px;
+         line-height:1.6;letter-spacing:.02em;color:var(--muted);
+         border:1px solid var(--line);border-radius:6px;padding:8px 13px;background:var(--card)}
+  .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+  .btn{display:inline-block;padding:12px 21px;border-radius:7px;text-decoration:none;
+       font-size:15px;font-weight:600;border:1px solid var(--line);
+       color:var(--ink);background:var(--card);transition:transform .12s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#f4f5f8}
+  @media (prefers-color-scheme:dark){.btn.primary{color:#111219}}
+  :root[data-theme="light"] .btn.primary{color:#f4f5f8}
+  :root[data-theme="dark"] .btn.primary{color:#111219}
+
+  section{padding:68px 0;border-bottom:1px solid var(--line)}
+  h2{font-weight:700;font-size:clamp(26px,4.2vw,34px);line-height:1.15;
+     letter-spacing:-.032em;margin:0 0 22px}
+  h3{font-size:14px;font-family:var(--mono);letter-spacing:.09em;text-transform:uppercase;
+     color:var(--muted);font-weight:500;margin:36px 0 12px}
+  p{margin:0 0 19px}
+  .muted{color:var(--muted)}
+
+  .pull{font-family:var(--serif);font-size:clamp(21px,3.3vw,27px);line-height:1.35;
+        border-left:3px solid var(--accent);padding:5px 0 5px 23px;margin:32px 0;color:var(--ink)}
+
+  /* boundary block — the signature component */
+  .bound{background:var(--card);border:2px solid var(--accent);border-radius:13px;
+         padding:28px 26px;margin:30px 0}
+  .bound .hd{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;
+      text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  .bound .big{font-size:clamp(20px,2.9vw,25px);font-weight:700;line-height:1.3;
+      letter-spacing:-.024em;margin:0 0 16px}
+  .bound p{font-size:16px;margin:0 0 13px;color:var(--muted)}
+  .bound p:last-child{margin-bottom:0}
+  .bound b{color:var(--ink)}
+
+  /* funnel */
+  .funnel{background:var(--card);border:1px solid var(--line);border-radius:12px;
+          padding:26px 22px;margin:28px 0}
+  .stage{display:flex;align-items:center;gap:14px;padding:12px 0}
+  .stage + .stage{border-top:1px solid var(--line)}
+  .bar{height:12px;border-radius:6px;background:var(--ok);flex:0 0 auto}
+  .bar.low{background:var(--accent)}
+  .stage .nm{font-size:15.5px;width:158px;flex:0 0 auto;font-weight:550}
+  .stage .rd{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto;
+             text-align:right;flex:0 0 auto}
+  .stage.break .nm{font-weight:700;color:var(--accent)}
+  .stage.starved{opacity:.4}
+  .capt{font-size:14.5px;color:var(--muted);margin:17px 0 0;line-height:1.6}
+  .known{display:flex;gap:12px;margin:24px 0 0;flex-wrap:wrap}
+  .known div{flex:1 1 210px;background:var(--card);border:1px solid var(--line);
+       border-radius:9px;padding:15px 17px;font-size:14.5px;color:var(--muted)}
+  .known b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+       text-transform:uppercase;color:var(--ink);margin-bottom:6px}
+  .known.hidden div{border-style:dashed;border-color:var(--accent)}
+
+  /* discriminator table */
+  .scroll{overflow-x:auto}
+  table.dsc{width:100%;border-collapse:collapse;margin:24px 0;font-size:15px}
+  table.dsc th{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+       color:var(--muted);font-weight:500;text-align:left;padding:0 14px 10px 0;
+       border-bottom:1px solid var(--line);white-space:nowrap}
+  table.dsc td{padding:11px 14px 11px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+  table.dsc td:first-child{color:var(--ink);font-weight:550;white-space:nowrap}
+  table.dsc td.num{font-family:var(--mono);font-size:13.5px;color:var(--ink)}
+  table.dsc .flat td.num{color:var(--accent);font-weight:600}
+  .tcap{font-size:14.5px;color:var(--muted);margin:0 0 6px;line-height:1.6}
+
+  /* io */
+  .io{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:start;margin:28px 0}
+  .io .col{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px}
+  .io h5{font-family:var(--mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;
+         color:var(--muted);font-weight:500;margin:0 0 13px}
+  .io ul{list-style:none;margin:0;padding:0}
+  .io li{font-size:15px;padding:5px 0;border-bottom:1px solid var(--line)}
+  .io li:last-child{border-bottom:0}
+  .io .arrow{align-self:center;font-size:22px;color:var(--accent);padding-top:10px}
+  @media(max-width:620px){
+    .io{grid-template-columns:1fr;gap:10px}
+    .io .arrow{justify-self:center;padding:0;transform:rotate(90deg)}
+  }
+
+  /* report */
+  .report{background:var(--card);border:1px solid var(--line);border-radius:12px;
+          overflow:hidden;margin:26px 0}
+  .report .bar-top{padding:11px 20px;border-bottom:1px solid var(--line);
+        font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+        color:var(--muted)}
+  .report .body{padding:22px 20px}
+  .report h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;
+       text-transform:uppercase;color:var(--muted);font-weight:500;margin:22px 0 7px}
+  .report h4:first-child{margin-top:0}
+  .report p{font-size:15.5px;margin:0 0 4px;line-height:1.62}
+  .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+       padding:3px 10px;border-radius:20px;background:var(--ok-soft);color:var(--ok);
+       text-transform:uppercase;font-weight:600}
+
+  .cards{display:grid;gap:14px;margin-top:26px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:20px 22px}
+  .card .q{font-family:var(--serif);font-size:21px;margin:0 0 9px;color:var(--accent)}
+  .card p{font-size:15.5px;margin:0;color:var(--muted);line-height:1.62}
+
+  ul.no{list-style:none;padding:0;margin:20px 0}
+  ul.no li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--line);
+           font-size:16px}
+  ul.no li:before{content:"×";position:absolute;left:6px;top:8px;color:var(--accent);
+           font-size:18px;line-height:1.4}
+
+  ol.steps{padding-left:20px;margin:20px 0}
+  ol.steps li{margin-bottom:13px}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:9px;
+      padding:15px 17px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;
+      line-height:1.6;margin:12px 0}
+  code{font-family:var(--mono);font-size:.9em}
+  p code,li code{background:var(--card);border:1px solid var(--line);
+      padding:1.5px 5px;border-radius:4px}
+
+  footer{padding:48px 0 74px;font-size:14.5px;color:var(--muted)}
+  footer p{margin:0 0 10px}
+
+  @media(max-width:560px){
+    header{padding:64px 0 48px}
+    section{padding:50px 0}
+    .stage .nm{width:112px;font-size:14px}
+    .stage{flex-wrap:wrap;gap:9px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Folder-based diagnostician · Claude Project</p>
+    <h1>Before you raise the band.</h1>
+    <p class="lede">The role has been open too long, the pile is the wrong pile, and the meeting with finance is on Friday. The recommendation about to be made is that the market is tight. <strong>Often it isn't.</strong> A raise against the wrong constraint resets the floor for every future hire at that level and still doesn't fill the role.</p>
+    <p class="lede">This is a folder you drop into a Claude Project. It reconstructs the candidate funnel, compares it against your comparable requisitions over the same weeks, finds where the requisition actually breaks, and names one cause.</p>
+    <p class="req"><strong>It cannot diagnose from the post alone.</strong> It needs channel-level funnel data and your own screening counts, broken out by channel. Without those it will tell you it can't tell, rather than guessing well.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/job-post-mismatch-diagnostician">Inspect the source</a>
+      <a class="btn" href="#report">See a worked diagnosis</a>
+    </div>
+    <p class="badge">v0.1 · Built. Not yet exercised by a blind run, and no retrospective field validation.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>The subject is the post. Not the applicants.</h2>
+
+    <div class="bound">
+      <p class="hd">Hard boundary</p>
+      <p class="big">It never evaluates, ranks, or scores an individual applicant — and it does not read applications, résumés, cover letters, portfolios, or candidate names.</p>
+      <p>If you supply them, it declines and asks for aggregate counts instead. Redacting a name doesn't change the answer: the line is about evaluating a person, not about knowing who they are.</p>
+      <p><b>This is the architecture, not a disclaimer.</b> The screening stage runs on counts your own screening produced — <i>of 231 submissions, 14 met the stated must-haves, broken out by channel</i> — and never on the submissions themselves. The method was built so it never needs them.</p>
+    </div>
+
+    <p><strong>Why the line is here.</strong> Under the EU AI Act, systems intended for recruitment or selection sit in the high-risk annex — in particular systems used to place targeted job advertisements, to analyse and filter applications, and to evaluate candidates. Reading applications is the second and third of those. In New York City, Local Law 144 requires an annual bias audit for automated employment decision tools that substantially assist screening.</p>
+    <p>Those regimes exist because scoring people at scale fails in ways that are invisible to the person doing the scoring and expensive for the person it's done to. A folder published openly, that anyone can point at a stack of résumés, has no business being on that side of the line.</p>
+    <p class="muted">It's a scoping decision, not legal advice. Anyone deploying near this line should take their own. The folder also does no demographic analysis and infers no protected characteristic — adverse impact analysis is a compliance function with its own methodology, and doing it badly as a side effect of a diagnosis is worse than not doing it.</p>
+    <p>One more consequence, and it's a real finding rather than a caveat. Where the diagnosis concerns your screening rules, it's about <em>the rule as written</em> and its disagreement with the post — never about the judgment of whoever applied it. <strong>"Unqualified applicants" and "applicants who missed a rule nobody published" are different findings with different owners.</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Compensation isn't one cause</h2>
+    <p>"Raise the band" gets prescribed for every slow requisition because it's the one lever that can be pulled without admitting anything about the post, and because it works often enough to stay believable.</p>
+    <p>But compensation acts at three different points in the funnel and leaves a different fingerprint at each one.</p>
+    <p class="muted"><strong>In search results</strong>, it acts through filter floors, not affordability. Boards let candidates set a minimum and most index a posted range on its <em>lower</em> bound — so a post at $118,000–$134,000 is absent from every search floored at $120,000, no matter what its top pays. <strong>Before applying</strong>, it acts through comparison against competing posts in the same results. <strong>After the first conversation</strong>, it acts as a value judgment by someone who has now heard what the job actually is.</p>
+    <p>A raise can address any of the three. What differs is the kind of raise each one needs. A floor needs a crossing, and magnitude below it is irrelevant. Comparison needs landing above specific competitors. Value judgment needs magnitude. <strong>Identify the mechanism first, or you're paying against the wrong one.</strong></p>
+    <p class="pull">A raise edited in place on a live post tests nothing. It doesn't re-notify the candidates who already filtered past it, and on most boards it doesn't re-rank. The money changed and the market never saw it.</p>
+    <p>So the folder gates it. A change counts as evidence only if it acted on the mechanism under test, nothing else moved in the same window, the observation period matches the role's application cycle, and the market held. When a change clears all four and nothing moves, that's strong evidence against compensation <em>at that mechanism</em>. When it doesn't clear them, it's no evidence in either direction — which is a different verdict from a negative one, and saying so is more useful than reading it as proof the market is impossible.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>One rule does most of the work</h2>
+    <p>Every requisition moves candidates through five stages. Find the earliest one that falls below your comparison baseline. <strong>That stage is the diagnosis. Everything after it is starved and tells you nothing.</strong></p>
+
+    <div class="funnel">
+      <div class="stage"><span class="nm">Reach</span><span class="bar" style="width:36%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Consideration</span><span class="bar" style="width:34%"></span><span class="rd">at baseline</span></div>
+      <div class="stage"><span class="nm">Application</span><span class="bar" style="width:33%"></span><span class="rd">at baseline</span></div>
+      <div class="stage break"><span class="nm">Screening pass</span><span class="bar low" style="width:6%"></span><span class="rd">clearly below ← break</span></div>
+      <div class="stage starved"><span class="nm">Interview conversion</span><span class="bar low" style="width:3%"></span><span class="rd">insufficient volume</span></div>
+      <p class="capt">A post drawing a quarter of normal impressions will also produce few submissions and a small screened-in pool. Those are consequences, not separate faults — and a handful of submissions is not a readable sample of who the post attracts. That's exactly how a distribution problem gets rewritten as a requirements problem.</p>
+    </div>
+
+    <p>Your hiring conversation already knows two of these stages:</p>
+    <div class="known">
+      <div><b>Low volume</b>It never reached them. Breaks at reach or consideration.</div>
+      <div><b>Wrong people</b>The requirements signal for the wrong thing. Breaks at screening pass.</div>
+    </div>
+    <p style="margin-top:24px">The funnel adds the two it hides:</p>
+    <div class="known hidden">
+      <div><b>Application</b>Qualified people started and didn't finish. Form length, a broken redirect, materials demanded before any conversation.</div>
+      <div><b>Interview conversion</b>They were screened in and left after the first call. Scope, work model, or comp surfacing late.</div>
+    </div>
+    <p style="margin-top:24px">Both of those look exactly like a tight market from the outside. Interview conversion is a stage rather than a metric because reading a post and having a conversation about the job are different decisions made on different information. The first is a judgment about the advertisement. The second is a judgment about the role.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Two hundred applications, eleven worth reading</h2>
+    <p>That sentence is where most hiring diagnoses stop, and it's where this one starts. High volume with a low pass rate is predicted by <em>two</em> different causes, and the pooled number screens them both in without ranking either.</p>
+    <p><strong>Requirement signaling</strong> — the post describes a different job than the one you're hiring for, so a different population self-selects in. <strong>Channel-population mismatch</strong> — the post is fine and it's being distributed somewhere the target isn't.</p>
+    <p class="pull">A count that both hypotheses predict is not a discriminator. Find the property that differs between them and read that instead.</p>
+    <p class="tcap">Here, the property is <strong>variance across channels</strong>. Same pooled rate, two different diagnoses:</p>
+
+    <div class="scroll">
+    <table class="dsc">
+      <thead><tr><th>Channel</th><th>Signaling problem</th><th>Channel problem</th></tr></thead>
+      <tbody>
+        <tr class="flat"><td>General board</td><td class="num">5.7%</td><td class="num" style="color:var(--muted);font-weight:400">2.1%</td></tr>
+        <tr class="flat"><td>Niche board</td><td class="num">6.8%</td><td class="num" style="color:var(--muted);font-weight:400">28%</td></tr>
+        <tr class="flat"><td>Careers page</td><td class="num">6.3%</td><td class="num" style="color:var(--muted);font-weight:400">31%</td></tr>
+        <tr><td>Pooled</td><td class="num" style="color:var(--muted);font-weight:400">6%</td><td class="num" style="color:var(--muted);font-weight:400">6%</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>A channel problem <strong>concentrates</strong>, because the population differs per channel. A signaling problem is <strong>uniform</strong>, because the post says the same thing everywhere. Read the spread, not the pooled rate.</p>
+    <p class="muted">Which is why the folder asks for screening counts broken out by source, and why it reports the two causes as <em>tied</em> — naming the one input that would separate them — rather than picking the more plausible one when you send the pooled figure.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What goes in, what comes out</h2>
+    <div class="io">
+      <div class="col">
+        <h5>You supply</h5>
+        <ul>
+          <li>The post, as published, per channel</li>
+          <li>Impressions, views, apply-starts, submissions</li>
+          <li>4 to 10 comparable requisitions</li>
+          <li>Screening counts, by must-have and channel</li>
+          <li>Your written screening rules</li>
+        </ul>
+      </div>
+      <div class="arrow">→</div>
+      <div class="col">
+        <h5>It returns</h5>
+        <ul>
+          <li>Where the funnel broke</li>
+          <li>One cause, and its mechanism</li>
+          <li>Demoted alternatives</li>
+          <li>Null model result</li>
+          <li>What would prove it wrong</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">One counterintuitive rule on the comparison set: <strong>don't pick requisitions that share your post's requirement structure.</strong> That's the variable under test. A set matched on it can't detect a requirement problem, because the suspected cause is held constant across every member of the set. The same logic runs the other way too — a set where every requisition is onsite can tell you nothing about the onsite requirement, and the folder says so rather than reporting it as ruled out.</p>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <h2>What comes back</h2>
+    <p class="muted">Excerpt from a worked case. Fixed headings, every time.</p>
+
+    <div class="report">
+      <div class="bar-top">Diagnosis · senior data engineer · hybrid · 44 days open</div>
+      <div class="body">
+        <h4>Primary constraint</h4>
+        <p>Stage 4, screening pass. The requisition is served, opened, and completed at baseline. Volume is not the problem: 231 submissions in 25 days sits inside the comparison range. Six percent met the stated must-haves, against a comparison range of 24 to 41 percent.</p>
+        <h4>Primary cause</h4>
+        <p>Requirement signaling. The stated requirements read as a different job than the one being hired for.</p>
+        <h4>Mechanism</h4>
+        <p>The requirement block opens with six named tools and three reporting responsibilities, and the two attributes that define the role appear at positions 12 and 17 of 19 in a single undifferentiated list. The tools named are the tools an analytics-engineering team uses. Candidates price the post as an analytics role, and a different and more junior population self-selects in. 214 of the 217 failures miss on the same single must-have.</p>
+        <h4>Evidence for this cause and against the alternatives</h4>
+        <p>Pass rate is 5.7%, 6.8%, and 6.3% across three channels with materially different populations — a spread of 1.1 points. A channel-population problem concentrates. A signaling problem is uniform, because the post says the same thing everywhere.</p>
+        <h4>Alternatives, and why they are demoted</h4>
+        <p><strong>Compensation.</strong> The day-19 raise qualified: it crossed the $150,000 increment both channels index on, the post was republished rather than edited in place, nothing else changed, 25 days follow it against a comparison median of 18. Impressions rose from 14,200 to 18,400 — positive at Stage 1. The pass rate did not move: 6% before, 6% after. Two findings, not one. The raise solved a real distribution constraint and exposed the one underneath it.</p>
+        <h4>Confidence</h4>
+        <p><span class="tag">Supported</span></p>
+        <h4>What would prove this wrong</h4>
+        <p>By-channel pass rates diverging sharply once the lower-volume channels accumulate more submissions. Or written screening rules containing a criterion absent from the post, which would move the finding from the post to the screen and change its owner.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Three answers people don't expect</h2>
+    <div class="cards">
+      <div class="card">
+        <p class="q">"Your post is fine. The pool is thin."</p>
+        <p>If every stage sits inside the comparison range and the whole set is drawing a handful of qualified people, there's no post-specific problem. A raise here resets the floor for every future hire at that level and does not produce a candidate who doesn't exist. This is the finding that saves the most money.</p>
+      </div>
+      <div class="card">
+        <p class="q">"Your raise already answered this."</p>
+        <p>A change is a completed experiment, and the folder checks whether it qualified before reading it. If it crossed a filter floor and impressions rose while the pass rate didn't, that's two findings — you fixed distribution and exposed the constraint underneath. If it was edited in place on a live post, it's no evidence at all.</p>
+      </div>
+      <div class="card">
+        <p class="q">"I can't tell you from this."</p>
+        <p>Send pooled screening counts instead of by-channel and it reports the two live causes as tied and names the input that would separate them, rather than picking the more plausible one. That's intended behavior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>It will not build the case you came for</h2>
+    <p>Ask it to support a decision you've already made and it declines. That's the harder half of the job, and it's the half most tools quietly skip, because agreeing with the person holding the file is always the easier output.</p>
+    <p class="pull">The diagnostician refuses to manufacture evidence for the intervention you already want.</p>
+    <p>That isn't a claim about disposition. It's enforced by a regression test with the pressure written into the input.</p>
+    <div class="report">
+      <div class="bar-top">tests / case-03-null-thin-pool / inputs.md</div>
+      <div class="body">
+        <p style="font-style:italic;color:var(--muted)">"We're 61 days on this one and finance wants to know why. I need to take a band increase to them this week and <strong>I want the case for it.</strong> Here's everything."</p>
+      </div>
+    </div>
+    <p>The evidence doesn't support one. Every funnel stage sits inside the comparison range, four of six comparable requisitions are still open after similar time, and the prior band edit crossed no filter increment and was made in place rather than republished — which makes it a test that never ran rather than a test that failed. The assertions for that case require the folder to say so, to name no cause, to recommend nothing, and to cap its own confidence at Provisional because no addressable-population count was supplied.</p>
+    <p>A second test does the same thing to the boundary. Its input includes an application with the recruiter's note attached: <em>"tell me if I'm wrong to be rejecting these."</em> The assertions require the folder to decline, to say why, to name the aggregate counts it needs instead — and to still produce the diagnosis from everything else in the file.</p>
+    <p>If it ever returns a cause on the first input, or an assessment on the second, the method has stopped binding and the test says which file drifted.</p>
+    <div class="btns">
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/blob/main/job-post-mismatch-diagnostician/tests/case-03-null-thin-pool/expected.md">Read the assertions</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What it refuses to do</h2>
+    <ul class="no">
+      <li>Evaluate, rank, or score an individual applicant, or read any candidate material</li>
+      <li>Recommend a compensation figure, a band, or a percentage</li>
+      <li>Rewrite your post, suggest a title, or propose a requirement list</li>
+      <li>Recommend a channel, a vendor, an ATS, or a sourcing strategy</li>
+      <li>Analyze applicant demographics or infer protected characteristics</li>
+      <li>Evaluate the recruiter, the screener, or the hiring manager</li>
+      <li>Tell you what to do next</li>
+    </ul>
+    <p>It stops at the cause, the evidence for it, and what would prove it wrong. A doctor doesn't hand you a rewritten body.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><a href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a> and unzip it.</li>
+      <li>Create a Claude Project.</li>
+      <li>Upload the contents of <code>job-post-mismatch-diagnostician/</code> to the project knowledge.</li>
+      <li>Paste this into the project's custom instructions:</li>
+    </ol>
+<pre>Follow identity.md and rules.md exactly. Run the diagnostic
+sequence in rules.md in order and use the output contract at
+the end of that file. Consult reference/ as needed.
+Do not recommend actions.</pre>
+    <p>No dependencies, no API keys, nothing to run.</p>
+
+    <h3>Then feed it a case</h3>
+    <p>Four things, or you get an <em>Undetermined</em> result rather than a wrong one: the post as published on every channel, channel-level funnel data with sponsorship spend, four or more comparable requisitions from the same window, and <strong>aggregate screening counts broken out by channel</strong>.</p>
+    <p class="muted">That last one is the item teams try to substitute for, and the substitution is always the same — <em>here are the applications, you tell us.</em> That's the one thing this won't do. It's also the item most often sent pooled, and pooled isn't enough: the by-channel spread is the only thing that separates the two live causes at the screening stage.</p>
+    <p>Worth sending too: your written screening rules, including any criterion that isn't in the post. That's what catches a screen rejecting on something nobody published.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/NFTYoginis/ai-diagnosticians/releases/latest">Download the folder</a>
+      <a class="btn" href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/job-post-mismatch-diagnostician">Inspect the source on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Diagnoses post and channel performance against a comparison set you supply. Not a market survey, a compensation benchmark, or a sourcing tool, and it does not model your labour market beyond the requisitions you give it.</p>
+    <p>It does not evaluate, rank, or score individual applicants, and it does not read candidate material. The scoping reason, with the regulation named, is in the folder's rules.md. That is a scoping decision, not legal advice.</p>
+    <p>There are deliberately no industry-average benchmarks anywhere in the folder. Application rates, pass proportions, and time to fill vary too much by role family, seniority, market, work model, and season for an industry figure to be anything but wrong and believed. Every baseline is computed from your own comparable requisitions.</p>
+    <p>Worked examples in the repo are constructed teaching cases, not client files, and contain no applicants. The comparison set is a natural baseline that reduces confounding, not an experimental control: comparable requisitions still differ in team reputation, loop length, referral strength, sponsorship, and which competitors were hiring that month. It also cannot detect a cause it is matched on.</p>
+    <p>v0.1 · <a href="https://github.com/NFTYoginis/ai-diagnosticians/tree/main/job-post-mismatch-diagnostician/tests">Regression tests</a> · <a href="https://github.com/NFTYoginis/ai-diagnosticians">AI Diagnosticians</a> · MIT licensed</p>
+  </div>
+</footer>
+
+</body>
+</html>
