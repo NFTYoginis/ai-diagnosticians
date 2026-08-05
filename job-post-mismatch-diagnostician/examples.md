@@ -334,7 +334,7 @@ from 0.31 to 0.68. The subject sits inside both.
 
 Six requisitions at the same company, same window, same metro, all onsite, all regulated-industry
 specialist roles at adjacent seniority, bands between $112,000 and $140,000, all on the same two
-channels at equal spend. Days open: 44, 52, 58, 61, 67, 74. Four of six remain open.
+channels at equal spend. Days open across the six: 44, 52, 58, 67, 71, 74. Four of six remain open, two of them longer than the subject.
 
 ### Comparison-set integrity
 
@@ -355,7 +355,7 @@ structurally unable to test whether the onsite requirement is itself the constra
 | 2. Consideration | 4.4% view rate, 12% apply-start rate | 3.9–5.2%, 10–15% | At baseline |
 | 3. Application | 71% of apply-starts submitted | 64% to 78% | At baseline |
 | 4. Screening pass | 4 of 29 submissions, 14% | 9% to 19% | At baseline |
-| 5. Interview conversion | 3 of 4 scheduled, 3 attended | 2 to 4 per 4 | At baseline |
+| 5. Interview conversion | 3 of 4 scheduled, 3 attended | not supplied | Not assessable |
 
 ### Primary constraint
 

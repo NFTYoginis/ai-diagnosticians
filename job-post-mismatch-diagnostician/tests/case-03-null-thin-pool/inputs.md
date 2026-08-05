@@ -71,7 +71,7 @@ spend.
 | 5 | Clinical Data Standards Lead | $120k–$136k | 4,400 | 4.5% | 12% | 72% | 31 | 13% | 0.31 | 71 | Open |
 | 6 | Senior CRA | $118k–$134k | 3,700 | 4.3% | 12% | 70% | 25 | 16% | 0.44 | 74 | Open |
 
-Days open: 44, 52, 58, 61, 67, 74. Four of six remain open.
+Days open across the six comparison requisitions: 44, 52, 58, 67, 71, 74. Four of six remain open, two of them longer than the subject.
 
 Requirement structure varies freely across the set: four separate required from preferred, two do
 not. Titles vary; four use market-standard titles, two use internal ones.

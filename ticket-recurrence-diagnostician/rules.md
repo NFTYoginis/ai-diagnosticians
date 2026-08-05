@@ -287,6 +287,26 @@ available, and so is the opposite — that the rewrite improved a page which was
 constraint. Which one is correct depends entirely on whether the change could have tested the
 break stage at all.
 
+
+### Which way does the gap push
+
+When evidence is missing or the comparison set carries a mismatch, do not stop at naming
+it. Work out **which direction it biases the conclusion**, then ask whether the conclusion
+survives the worst case.
+
+A limitation that pushes *against* your finding strengthens it. If the comparison set
+makes the subject look worse than it is, and the subject still reads normal, the mismatch
+cannot be what produced the normal reading. If a missing filter would only have moved the
+number further inside the range, its absence cannot have manufactured the result.
+
+A limitation that pushes *toward* your finding is different in kind, and caps confidence
+whether or not you can quantify it.
+
+State the direction explicitly. "Absorption data was not supplied" tells a reader a fact.
+"Absorption data was not supplied, and every plausible value for it moves the subject
+further inside the range" tells them what to do with it.
+
+
 ---
 
 ## Step 5 — Test the null model before committing
@@ -401,5 +421,27 @@ If the mechanism takes three paragraphs, you have not finished diagnosing.
 These caps are not advisory. **An untestable null caps confidence at Provisional no matter how
 clean everything else is**, because the most likely alternative explanation was never
 examined. Same for a limited comparison set.
+
+### Grading a null
+
+The three grades above describe a **located constraint**. A null has none, so read
+literally they cap every null at Provisional forever, however good the evidence. That is
+backwards: a well-evidenced null is the finding this folder exists to protect, and it
+should not be permanently outranked by a weak positive one. Grade it on its own terms.
+
+- **Supported** — the comparison set is Usable, the subject sits inside the range at every
+  stage that can be compared, **the null was tested directly against the input built to
+  test it**, and the alternatives this comparison set is structurally unable to see are
+  named.
+- **Provisional** — as above, but the null is inferred from the comparison set's own
+  pattern rather than measured against its own input. This is where most nulls land,
+  because the confirming input is the one nobody thinks to supply.
+- **Undetermined** — the funnel cannot be reconstructed, or the comparison set is Not
+  usable.
+
+The distinction that matters is the middle clause. A null inferred from "everything looks
+normal" and a null confirmed against the measurement that would have shown otherwise are
+different findings, and a reader about to spend money on the strength of one deserves to
+know which they were handed.
 
 Undetermined is a legitimate outcome. Name the missing input and stop.
