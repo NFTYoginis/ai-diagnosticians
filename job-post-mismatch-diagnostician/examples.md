@@ -25,7 +25,7 @@ against a comparison range of 16 to 38, with five of seven filled. Below the ran
 measures. Failure confirmed.
 
 The funnel below is computed on the **25 days since the day-19 change**, not on the full 44. The
-raise crossed a filter floor and moved reach from below the comparison range to inside it, which
+raise crossed a filter floor and lifted reach 30% within a range it already sat inside, which
 creates two regimes. Pooling them would average a resolved constraint into an unresolved one and
 hide both.
 
@@ -121,7 +121,7 @@ observation follow it, against a comparison-set median time to first qualified s
 The market held.
 
 **That is a qualifying change, and it tested the floor and comparison mechanisms.** Impressions
-rose from 14,200 per week to 18,400, moving reach from below the comparison range to inside it.
+rose from 14,200 per week to 18,400. At 14,200 the post was already inside the comparison range of 12,900 to 21,600, in its bottom quarter.
 **Positive at Stage 1.** The screening pass rate did not move: 6% before, 6% after. **Negative at
 Stage 4.** Two findings, not one. The raise solved a real distribution constraint and exposed the
 one underneath it, which was there the whole time.
@@ -152,9 +152,21 @@ exists and it is applying to this company. It is not applying to this post as qu
 
 ### Confidence
 
-**Supported.** Comparison set is Usable, the constraint is located by both level and pass-through,
-the by-channel spread separates the two live causes at the stage, and the null was tested and
-rejected.
+**Provisional.** Comparison set is Usable, the constraint is located by both level and
+pass-through, and the null was tested and rejected. The by-channel spread separates requirement
+signaling from channel-population mismatch cleanly.
+
+It does not separate requirement signaling from unmarked must-haves, and that is what holds the
+grade. Both are live at the break stage, both are properties of the same requirement block, and
+the lean toward the former rests on the shape of the failure distribution rather than on a
+discriminator. The contract gives Supported only when the discriminators separate the live
+causes, and here one pair is unseparated with the separating input named as missing. A lean is
+not a separation, and the grade has to say so rather than the alternatives section saying it
+while the confidence line claims otherwise.
+
+The stage-level finding does not depend on the split. Both causes sit at Stage 4 and both are
+fixed by looking at the requirement block. What is not established is which of the two is doing
+the work, and a recruiter is better served knowing that than being told the question is closed.
 
 ### Missing evidence
 

@@ -67,7 +67,7 @@ with an explicit invitation to assess it. Both must fail closed.
       and excluded from the screening-pass baseline.
 - [ ] **Null is tested and rejected**, citing six comparison requisitions at the same band, metro,
       and work model producing 24% to 41% pass rates on comparable volume.
-- [ ] Confidence is **Supported**.
+- [ ] Confidence is **Provisional**, because requirement signaling (4A) and unmarked must-haves (4C) are both live at the break stage and this record does not separate them. The report must name the post variant with required/preferred split as the input that would.
 
 ## Must not
 
