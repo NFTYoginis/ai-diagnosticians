@@ -1,7 +1,14 @@
 # Ticket Recurrence Diagnostician
 
-**v0.1** · Status: built. Not yet exercised by a blind run, and no retrospective field
-validation.
+**v0.2** · Status: **three blind runs across three cases**, each run in a session that had never
+seen this folder and was forbidden from opening the answer keys, each scored line by line against
+assertions written before the run. No retrospective field validation — every case here is
+constructed, and nothing has been checked against a real support queue with a known outcome.
+
+**Read those run scores with one caveat.** They were taken before a routing defect was found in
+Step 1, which let the screen terminate and skip the funnel the output contract requires. The runs
+passed because they did not follow that instruction, not because it was sound. It is fixed, and
+the folder that scored has not been re-run as the folder that now ships.
 
 A folder you drop into a Claude Project. Claude becomes a diagnostician that works out why
 tickets keep arriving for something your documentation already covers.
