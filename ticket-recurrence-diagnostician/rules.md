@@ -81,8 +81,19 @@ survives. Say so if it does not.
 Compare the subject's **tickets per hundred active users of that feature** against the
 comparison set's distribution, over the same window.
 
-- Subject rate inside the comparison range → **no failure demonstrated.** Go to Step 5
-  (null), write the null report, stop.
+- Subject rate inside the comparison range → **no failure demonstrated.** The null is your
+  likely finding.
+
+  **Do not stop here, and do not go straight to Step 5.** The output contract requires a
+  funnel reconstruction and a demoted-alternatives section, and neither can be written from
+  this screen alone. Step 5's evidence for the null is a conjunction, and two of its clauses —
+  the subject's per-stage figures sitting inside the comparison range *at every stage*, and
+  the comparison set's per-user rates tracking the subject's *at every stage* — cannot be
+  checked without the funnel that Steps 2 through 4 build. The screen cannot be executed on
+  its own terms.
+
+  Run Steps 2 through 6 regardless. A screen that terminates cannot be corrected by anything
+  downstream, which is what the downstream is for.
 - Subject rate at or beyond the top of the range → a real failure. Continue.
 - The comparison set's rates have also climbed relative to prior periods → hold this. It is
   a strong null signal and you will test it properly at Step 5.

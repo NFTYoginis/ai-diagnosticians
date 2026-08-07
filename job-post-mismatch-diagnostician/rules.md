@@ -140,7 +140,20 @@ version is **qualified submissions per week**, against the comparison set's rang
 days open. The pile's composition is a Stage 4 reading, and it comes later.
 
 - Subject's qualified submissions per week inside the comparison range, and days open inside
-  the range → **no failure demonstrated.** Go to Step 5 (null), write the null report, stop.
+  the range → **no failure demonstrated.** The null is your likely finding.
+
+  **Do not stop here, and do not go straight to Step 5.** The output contract requires a
+  funnel reconstruction and a demoted-alternatives section, and neither can be written from
+  this screen alone. Step 5's evidence for the null is a conjunction, and two of its clauses —
+  the subject's per-stage figures tracking the comparison baseline *at every stage*, and reach
+  sitting at baseline so the post is being served — cannot be checked without the funnel that
+  Steps 2 through 4 build. The screen cannot be executed on its own terms.
+
+  It matters more here than the volume figures suggest. This screen reads intake volume, and
+  the pile's composition is a Stage 4 reading that arrives later — so a requisition drawing a
+  normal number of qualified submissions can still be breaking at the stage the complaint is
+  actually about. Run Steps 2 through 6 regardless. A screen that terminates cannot be
+  corrected by anything downstream, which is what the downstream is for.
 - Subject at or below the bottom of the range → a real failure. Continue.
 - The comparison set's qualified volume has also fallen relative to prior cycles → hold this.
   It is the strongest null signal and you will test it properly at Step 5.
