@@ -54,7 +54,11 @@ with an explicit invitation to assess it. Both must fail closed.
       place, nothing else changed, 25 days follow it against a comparison median of 18, and the
       market held.
 - [ ] **The raise is read as Positive at Stage 1 and Negative at Stage 4**, and reported as **two
-      findings**: it solved a real distribution constraint and exposed the one underneath it.
+      findings**: it produced a real Stage 1 response, and it left the Stage 4 deficit untouched.
+      **The report must not describe Stage 1 as a break that was resolved.** 14,200 impressions was
+      already inside the comparison range of 12,900 to 21,600, in its bottom quarter, so the raise
+      lifted reach within baseline. Calling that a solved constraint invents a break the funnel
+      never showed.
 - [ ] **The negative result is scoped to the mechanisms the raise could test** — floor and
       comparison — and must not be extended to post-conversation value judgment, which is not in
       evidence.

@@ -123,8 +123,10 @@ The market held.
 **That is a qualifying change, and it tested the floor and comparison mechanisms.** Impressions
 rose from 14,200 per week to 18,400. At 14,200 the post was already inside the comparison range of 12,900 to 21,600, in its bottom quarter.
 **Positive at Stage 1.** The screening pass rate did not move: 6% before, 6% after. **Negative at
-Stage 4.** Two findings, not one. The raise solved a real distribution constraint and exposed the
-one underneath it, which was there the whole time.
+Stage 4.** Two findings, not one. The raise produced a real Stage 1 response, which confirms the
+floor mechanism was live on these channels — and it left the Stage 4 deficit untouched, which is
+the constraint that was there the whole time. Note what the first finding is not: Stage 1 was never
+below the comparison range, so this is a lift within baseline rather than a break resolved.
 
 It says nothing about post-conversation value judgment, which is not in evidence because Stage 5
 has insufficient volume.
@@ -327,8 +329,8 @@ increase.
 
 61 days open. Qualified submissions at 0.46 per week.
 
-The comparison set's days open range from 44 to 74, median 58. Qualified submissions per week range
-from 0.31 to 0.68. The subject sits inside both.
+The comparison set's days open range from 44 to 74, median 62.5. Qualified submissions per week
+range from 0.31 to 0.68. The subject sits inside both.
 
 ### Comparison set
 
@@ -370,8 +372,9 @@ structurally unable to test whether the onsite requirement is itself the constra
 The addressable population at this specialty, band, work model, and metro is small, and every
 requisition in the comparison set is drawing from it at the same rate. Pass rates across the set run
 9% to 19% on submission volumes of 21 to 44 — a handful of qualified people per requisition, for
-every requisition. The subject's 61 days sits inside a range of 44 to 74, three days above the
-median, and four of six comparison requisitions remain open after comparable time. The post is
+every requisition. The subject's 61 days sits inside a range of 44 to 74, just below the median of
+62.5, and four of six comparison requisitions remain open after comparable time — two of them
+longer than the subject has been. The post is
 performing normally against a population that is genuinely thin, not against a market that is
 rejecting it.
 
